@@ -20,7 +20,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(factory) {
+(function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define(['./generated/src/trakerr/index', 'stacktrace-js'], factory);
@@ -28,7 +28,7 @@
         // CommonJS-like environments that support module.exports, like Node.
         module.exports = factory(require('./generated/src/trakerr/index'), require('stacktrace-js'), require('error-stack-parser'));
     }
-}(function(TrakerrApi, StackTrace, ErrorStackParser) {
+}(function (TrakerrApi, StackTrace, ErrorStackParser) {
     'use strict';
 
     /**
@@ -51,17 +51,17 @@
      * @version 1.0.0
      */
     var exports = function TrakerrClient(apiKey,
-                           url,
-                           contextAppVersion,
-                           contextEnvName,
-                           contextEnvVersion,
-                           contextEnvHostname,
-                           contextAppOS,
-                           contextAppOSVersion,
-                           contextAppBrowser,
-                           contextAppBrowserVersion,
-                           contextDataCenter,
-                           contextDataCenterRegion) {
+                                         url,
+                                         contextAppVersion,
+                                         contextEnvName,
+                                         contextEnvVersion,
+                                         contextEnvHostname,
+                                         contextAppOS,
+                                         contextAppOSVersion,
+                                         contextAppBrowser,
+                                         contextAppBrowserVersion,
+                                         contextDataCenter,
+                                         contextDataCenterRegion) {
         var _this = this;
 
         _this.apiKey = apiKey;
@@ -78,27 +78,27 @@
         _this.contextDataCenter = contextDataCenter;
         _this.contextDataCenterRegion = contextDataCenterRegion;
 
-        if(typeof navigator !== 'undefined') {
-            if(!_this.contextAppOS) _this.contextAppOS = navigator.platform;
-            if(!_this.contextAppOSVersion) _this.contextAppOSVersion = navigator.oscpu;
-            if(!_this.contextAppBrowser) _this.contextAppBrowser = navigator.appCodeName;
-            if(!_this.contextAppBrowserVersion) _this.contextAppBrowserVersion = navigator.appVersion;
+        if (typeof navigator !== 'undefined') {
+            if (!_this.contextAppOS) _this.contextAppOS = navigator.platform;
+            if (!_this.contextAppOSVersion) _this.contextAppOSVersion = navigator.oscpu;
+            if (!_this.contextAppBrowser) _this.contextAppBrowser = navigator.appCodeName;
+            if (!_this.contextAppBrowserVersion) _this.contextAppBrowserVersion = navigator.appVersion;
         } else {
             try {
                 var os = require('os');
 
-                if(typeof os !== 'undefined') {
-                    if(!_this.contextAppOS) _this.contextAppOS = os.platform();
-                    if(!_this.contextAppOSVersion) _this.contextAppOSVersion = os.release();
-                    if(!_this.contextEnvHostname) _this.contextEnvHostname = os.hostname();
+                if (typeof os !== 'undefined') {
+                    if (!_this.contextAppOS) _this.contextAppOS = os.platform();
+                    if (!_this.contextAppOSVersion) _this.contextAppOSVersion = os.release();
+                    if (!_this.contextEnvHostname) _this.contextEnvHostname = os.hostname();
                 }
-            } catch(err) {
+            } catch (err) {
 
             }
         }
 
         var apiClient = new TrakerrApi.ApiClient();
-        if(url) {
+        if (url) {
             apiClient.basePath = url;
         }
         _this.eventsApi = new TrakerrApi.EventsApi(apiClient);
@@ -106,20 +106,19 @@
         function fillDefaults(appEvent) {
             if (typeof appEvent.apiKey === 'undefined') appEvent.apiKey = _this.apiKey;
 
-            if (typeof appEvent.contextAppVersion  === 'undefined') appEvent.contextAppVersion = _this.contextAppVersion;
+            if (typeof appEvent.contextAppVersion === 'undefined') appEvent.contextAppVersion = _this.contextAppVersion;
 
             if (typeof appEvent.contextEnvName === 'undefined') appEvent.contextEnvName = _this.contextEnvName;
-            if (typeof appEvent.contextEnvVersion  === 'undefined') appEvent.contextEnvVersion = _this.contextEnvVersion;
+            if (typeof appEvent.contextEnvVersion === 'undefined') appEvent.contextEnvVersion = _this.contextEnvVersion;
             if (typeof appEvent.contextEnvHostname === 'undefined') appEvent.contextEnvHostname = _this.contextEnvHostname;
 
-            if (typeof appEvent.contextAppOS === 'undefined')
-            {
+            if (typeof appEvent.contextAppOS === 'undefined') {
                 appEvent.contextAppOS = _this.contextAppOS;
                 appEvent.contextAppOSVersion = _this.contextAppOSVersion;
             }
 
             if (typeof appEvent.contextDataCenter === 'undefined') appEvent.contextDataCenter = _this.contextDataCenter;
-            if (typeof appEvent.contextDataCenterRegion  === 'undefined') appEvent.contextDataCenterRegion = _this.contextDataCenterRegion;
+            if (typeof appEvent.contextDataCenterRegion === 'undefined') appEvent.contextDataCenterRegion = _this.contextDataCenterRegion;
 
             if (typeof appEvent.eventTime === 'undefined') appEvent.eventTime = (new Date()).getTime();
             return appEvent;
@@ -136,7 +135,7 @@
             innerTrace.message = error instanceof Error ? error.message : error.toString();
             innerTrace.traceLines = new TrakerrApi.StackTraceLines();
 
-            for(var i in stackFrames) {
+            for (var i in stackFrames) {
                 var traceLine = new TrakerrApi.StackTraceLine();
                 traceLine.function = stackFrames[i].functionName;
                 traceLine.file = stackFrames[i].fileName;
@@ -151,13 +150,13 @@
         function sendEventFromError(err, classification, shouldDie, callbackFn) {
             StackTrace
                 .fromError(err)
-                .then(function(stackFrames) {
+                .then(function (stackFrames) {
                     var newEvent = fillStacktrace(err, classification, stackFrames);
-                    if(callbackFn) {
+                    if (callbackFn) {
                         callbackFn(newEvent);
                     }
-                    _this.sendEvent(newEvent, function(error, data, response) {
-                        if(error) {
+                    _this.sendEvent(newEvent, function (error, data, response) {
+                        if (error) {
                             console.error('Error Response: ' + error + ', data = ' + data + ', response = ' + JSON.stringify(response));
                         } else {
                             console.log('Response: data = ' + data + ', response = ' + JSON.stringify(response));
@@ -167,8 +166,8 @@
                         }
                     });
                 })
-                .catch(function(err) {
-                    console.error("Error: "+ err);
+                .catch(function (err) {
+                    console.error("Error: " + err);
                     if (shouldDie) {
                         process.exit(1);
                     }
@@ -180,20 +179,20 @@
          *
          * @param shouldDie should the process exit on error (applicable to node or other environments, ignored if in browser)
          */
-        TrakerrClient.prototype.handleExceptions = function(shouldDie) {
-            if(typeof window !== 'undefined') {
-                window.onerror = function(msg, file, line, col, error) {
+        TrakerrClient.prototype.handleExceptions = function (shouldDie) {
+            if (typeof window !== 'undefined') {
+                window.onerror = function (msg, file, line, col, error) {
                     var string = msg.toLowerCase();
                     var substring = "script error";
-                    if (string.indexOf(substring) > -1){
+                    if (string.indexOf(substring) > -1) {
                         console.error('Script Error: Script error encountered, see browser console for more.');
                     } else {
                         sendEventFromError(error, "Error", false);
                     }
                 }
-            } else if(typeof process !== 'undefined') {
+            } else if (typeof process !== 'undefined') {
                 shouldDie = (typeof shouldDie === 'undefined') ? true : shouldDie;
-                process.on('uncaughtException', function(err) {
+                process.on('uncaughtException', function (err) {
                     sendEventFromError(err, "Error", shouldDie);
                 });
             }
@@ -202,18 +201,18 @@
 
         /**
          * Constructs a new {model:AppEvent}
-         * 
+         *
          * @param classification classification like "Error", "Debug", "Warning" or "Info" or a custom string
          * @param eventType event type
          * @param eventMessage event message
          * @returns app event
          */
-        TrakerrClient.prototype.createAppEvent = function(classification, eventType, eventMessage) {
+        TrakerrClient.prototype.createAppEvent = function (classification, eventType, eventMessage) {
             var _this = this;
 
-            if(!classification) classification = "Error";
-            if(!eventType) eventType = 'unknown';
-            if(!eventMessage) eventMessage = 'unknown';
+            if (!classification) classification = "Error";
+            if (!eventType) eventType = 'unknown';
+            if (!eventMessage) eventMessage = 'unknown';
 
             return fillDefaults(new TrakerrApi.AppEvent(_this.apiKey, classification, eventType, eventMessage));
         };
@@ -224,9 +223,9 @@
          *
          * @param err the error to send
          * @param classification    classification like "Error", "Debug", "Warning" or "Info" or a custom string
-         * @param callbackFn        (optional) callback function that is called with one parametere - the event
+         * @param callbackFn        (optional) callback function that is called with one parameter i.e. the event, so other properties can be populated before the event is sent
          */
-        TrakerrClient.prototype.sendError = function(err, classification, callbackFn) {
+        TrakerrClient.prototype.sendError = function (err, classification, callbackFn) {
             sendEventFromError(err, classification, false, callbackFn);
         };
 
@@ -236,7 +235,7 @@
          * @param appEvent the event to send constructed using {createAppEvent}
          * @param callback the callback accepting the following parameters: error, data, response
          */
-        TrakerrClient.prototype.sendEvent = function(appEvent, callback) {
+        TrakerrClient.prototype.sendEvent = function (appEvent, callback) {
             var _this = this;
 
             return _this.eventsApi.eventsPost(fillDefaults(appEvent), callback);
