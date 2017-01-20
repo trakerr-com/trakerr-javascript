@@ -11,7 +11,17 @@ Get your application events and errors to Trakerr via the *Trakerr API*.
 - nodejs
 
 ## Dependencies
+The project is hosted on github at: https://github.com/trakerr-io/trakerr-javascript.
+
+### Installation via NPM
+```
 npm install --save trakerr/trakerr-javascript
+```
+
+### Installation using Bower
+```
+bower install https://github.com/trakerr-io/trakerr-javascript
+```
 
 ## Getting Started (Node/Browser)
 
@@ -136,6 +146,6 @@ mod.factory('$exceptionHandler', function ($log, config) {
 <a name="documentation-for-models"></a>
 ## Documentation for AppEvent
 
- - [TrakerrApi.AppEvent](generated/docs/AppEvent.md)
+ - [TrakerrApi.AppEvent](https://github.com/trakerr-io/trakerr-javascript/blob/master/generated/docs/AppEvent.md)
 
 

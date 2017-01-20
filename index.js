@@ -148,11 +148,14 @@
             return newEvent;
         }
 
-        function sendEventFromError(err, classification, shouldDie) {
+        function sendEventFromError(err, classification, shouldDie, callbackFn) {
             StackTrace
                 .fromError(err)
                 .then(function(stackFrames) {
                     var newEvent = fillStacktrace(err, classification, stackFrames);
+                    if(callbackFn) {
+                        callbackFn(newEvent);
+                    }
                     _this.sendEvent(newEvent, function(error, data, response) {
                         if(error) {
                             console.error('Error Response: ' + error + ', data = ' + data + ', response = ' + JSON.stringify(response));
@@ -215,13 +218,16 @@
             return fillDefaults(new TrakerrApi.AppEvent(_this.apiKey, classification, eventType, eventMessage));
         };
 
+
         /**
-         * Send err to Trackerr
+         * Send err to Trackerr with optional callback to populate custom properties
          *
          * @param err the error to send
+         * @param classification    classification like "Error", "Debug", "Warning" or "Info" or a custom string
+         * @param callbackFn        (optional) callback function that is called with one parametere - the event
          */
-        TrakerrClient.prototype.sendError = function(err, classification) {
-            sendEventFromError(err, classification);
+        TrakerrClient.prototype.sendError = function(err, classification, callbackFn) {
+            sendEventFromError(err, classification, false, callbackFn);
         };
 
         /**
