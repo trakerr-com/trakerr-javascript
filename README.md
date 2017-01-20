@@ -45,6 +45,7 @@ client.handleExceptions(false);
 
 ```javascript
     try {
+        ....
 
     } catch(err) {
         // send it to Trakerr
@@ -52,9 +53,27 @@ client.handleExceptions(false);
     }
 ```
 
-### Option-3: Create and send event (including non-errors) programmatically
+### Option-3: Send error to Trakerr programmatically and populate some custom properties on the event
+
 ```javascript
-// Option-2: Send event manually to Trakerr
+    try {
+        ....
+    } catch(err) {
+        // send it to Trakerr
+        client.sendError(err, "Error", function(event) {
+
+            // set some custom properties on the event
+            event.customProperties = {
+                customString: {
+                    customData1: "Some data"
+                }
+            };
+        });
+    }
+```
+
+### Option-4: Create and send event (including non-errors) programmatically
+```javascript
 try {
     // create a new event
     var appEvent = client.createAppEvent();
