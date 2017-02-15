@@ -37,7 +37,8 @@ var client = new TrakerrClient('<your api key here>'); // replace value within q
 
 ### Option-1: Handle exceptions with a global handler
 ```javascript
-// Option-1: Add a global exception handler, any error thrown with throw new Error('...'); will now be sent to Trakerr
+// Option-1: Add a global exception handler,
+//any error thrown with throw new Error('...'); will now be sent to Trakerr
 client.handleExceptions(false);
 ```
 
@@ -83,9 +84,11 @@ try {
     // send it to Trakerr
     client.sendEvent(appEvent, function(error, data, response) {
         if(error) {
-            console.error('Error Response: ' + error + ', data = ' + data + ', response = ' + JSON.stringify(response));
+            console.error('Error Response: ' + error + ',
+            data = ' + data + ', response = ' + JSON.stringify(response));
         } else {
-            console.log('Response: data = ' + data + ', response = ' + JSON.stringify(response));
+            console.log('Response: data = ' + data + ',
+            response = ' + JSON.stringify(response));
         }
     });
 } catch(err) {
@@ -114,9 +117,11 @@ try {
     // send it to Trakerr
     client.sendEvent(appEvent, function(error, data, response) {
         if(error) {
-            console.error('Error Response: ' + error + ', data = ' + data + ', response = ' + JSON.stringify(response));
+            console.error('Error Response: ' + error + ',
+            data = ' + data + ', response = ' + JSON.stringify(response));
         } else {
-            console.log('Response: data = ' + data + ', response = ' + JSON.stringify(response));
+            console.log('Response: data = ' + data + ',
+            response = ' + JSON.stringify(response));
         }
     });
 } catch(err) {
@@ -144,7 +149,8 @@ Install an $exceptionHandler as shown below.
 var TrakerrClient = require('trakerr-javascript');
 
 mod.factory('$exceptionHandler', function ($log, config) {
-    var client = new TrakerrClient('<your api key here>'); // replace value within quotes with your API key instead
+    //Replace value within quotes with your API key instead
+    var client = new TrakerrClient('<your api key here>');
     
     // create a new event
     var appEvent = client.createAppEvent();
@@ -160,7 +166,28 @@ mod.factory('$exceptionHandler', function ($log, config) {
         });
     };
 });
-````
+```
+
+## The TrakerrClient Constructor
+
+The `TrakerrClient`
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**apiKey** | **str** | API Key for the application | 
+**url** | **str** | (optional) URL to Trakerr. | [optional if passed `null`] Specify null to use default from apiClient.basePath.
+**contextAppVersion** | **str** | (optional) Application version. | [optional if passed `null`] Default value: "1.0".
+**contextEnvName** | **str** | (optional) Environment name like "development", "staging", "production" or a custom string. | [optional if passed `null`] Default Value: "develoment".
+**contextEnvVersion** | **str** | (optional) Environment version. | [optional if passed `null`]
+**contextEnvHostname** | **str** | (optional) Environment hostname. | [optional if passed `null`] Default value: os.hostname if the `os` library is defined.
+**contextAppOS** | **str** | (optional) Operating system. | [optional if passed `null`] Default value: navigator.platform if the navigator is defined by the browser, os.platform() if the application is not running on the browser.
+**contextAppOSVersion** | **str** | (optional) Operating system version. | [optional if passed `null`] Default value: navigator.oscpu if navigator is defined, os.release otherwise.
+**contextAppBrowser** | **str** | (optional) Browser name | [optional if passed `null`] navigator.appCodeName if navigator is defined.
+**contextAppBrowserVersion** | **str** | (optional) Browser version | [optional if passed `null`] navigator.appVersion.
+**contextDataCenter** | **str** | (optional) Data center | [optional if passed `null`] 
+**contextDataCenterRegion** | **str** | (optional) Data center region | [optional if passed `null`]
+
+
 
 <a name="documentation-for-models"></a>
 ## Documentation for AppEvent
