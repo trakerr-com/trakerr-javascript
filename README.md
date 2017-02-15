@@ -84,7 +84,8 @@ try {
     // send it to Trakerr
     client.sendEvent(appEvent, function(error, data, response) {
         if(error) {
-            console.error('Error Response: ' + error + ', data = ' + data + ', response = ' + JSON.stringify(response));
+            console.error('Error Response: ' + error + ', data = ' + data + ', response = ' +
+            JSON.stringify(response));
         } else {
             console.log('Response: data = ' + data + ', response = ' + JSON.stringify(response));
         }
