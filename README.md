@@ -178,11 +178,11 @@ Name | Type | Description | Notes
 **contextAppVersion** | **str** | (optional) Application version. | [optional if passed `null`] Default value: "1.0".
 **contextEnvName** | **str** | (optional) Environment name like "development", "staging", "production" or a custom string. | [optional if passed `null`] Default Value: "develoment".
 **contextEnvVersion** | **str** | (optional) Environment version. | [optional if passed `null`]
-**contextEnvHostname** | **str** | (optional) Environment hostname. | [optional if passed `null`] Default value: os.hostname if the `os` library is defined.
-**contextAppOS** | **str** | (optional) Operating system. | [optional if passed `null`] Default value: navigator.platform if the navigator is defined by the browser, os.platform() if the application is not running on the browser.
-**contextAppOSVersion** | **str** | (optional) Operating system version. | [optional if passed `null`] Default value: navigator.oscpu if navigator is defined, os.release otherwise.
-**contextAppBrowser** | **str** | (optional) Browser name | [optional if passed `null`] navigator.appCodeName if navigator is defined.
-**contextAppBrowserVersion** | **str** | (optional) Browser version | [optional if passed `null`] navigator.appVersion.
+**contextEnvHostname** | **str** | (optional) Environment hostname. | [optional if passed `null`] Default value: `os.hostname()` if the `os` library is defined.
+**contextAppOS** | **str** | (optional) Operating system. | [optional if passed `null`] Default value: `navigator.platform` if the navigator is defined by the browser, `os.platform()` if the application is not running on the browser.
+**contextAppOSVersion** | **str** | (optional) Operating system version. | [optional if passed `null`] Default value: `navigator.oscpu` if navigator is defined, `os.release()` otherwise.
+**contextAppBrowser** | **str** | (optional) Browser name | [optional if passed `null`] `navigator.appCodeName` if navigator is defined.
+**contextAppBrowserVersion** | **str** | (optional) Browser version | [optional if passed `null`] `navigator.appVersion` if navigator is defined.
 **contextDataCenter** | **str** | (optional) Data center | [optional if passed `null`] 
 **contextDataCenterRegion** | **str** | (optional) Data center region | [optional if passed `null`]
 
