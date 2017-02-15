@@ -84,11 +84,9 @@ try {
     // send it to Trakerr
     client.sendEvent(appEvent, function(error, data, response) {
         if(error) {
-            console.error('Error Response: ' + error + ',
-            data = ' + data + ', response = ' + JSON.stringify(response));
+            console.error('Error Response: ' + error + ', data = ' + data + ', response = ' + JSON.stringify(response));
         } else {
-            console.log('Response: data = ' + data + ',
-            response = ' + JSON.stringify(response));
+            console.log('Response: data = ' + data + ', response = ' + JSON.stringify(response));
         }
     });
 } catch(err) {
@@ -104,7 +102,8 @@ try {
 var TrakerrClient = require('trakerr-javascript');
 var client = new TrakerrClient('<your api key here>'); // replace value within quotes with your API key instead
 
-// Option-1: Add a global exception handler, any error thrown with throw new Error('...'); will now be sent to Trakerr
+// Option-1: Add a global exception handler,
+//any error thrown with throw new Error('...'); will now be sent to Trakerr
 client.handleExceptions(false);
 
 // Option-2: Send event manually to Trakerr
@@ -117,11 +116,9 @@ try {
     // send it to Trakerr
     client.sendEvent(appEvent, function(error, data, response) {
         if(error) {
-            console.error('Error Response: ' + error + ',
-            data = ' + data + ', response = ' + JSON.stringify(response));
+            console.error('Error Response: ' + error + ', data = ' + data + ', response = ' + JSON.stringify(response));
         } else {
-            console.log('Response: data = ' + data + ',
-            response = ' + JSON.stringify(response));
+            console.log('Response: data = ' + data + ', response = ' + JSON.stringify(response));
         }
     });
 } catch(err) {
