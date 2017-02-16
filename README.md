@@ -169,7 +169,24 @@ mod.factory('$exceptionHandler', function ($log, config) {
 
 ## The TrakerrClient Constructor
 
-The `TrakerrClient`
+The `TrakerrClient` class above can be constructed to take aditional data, rather than using the configured defaults. The constructor signature is:
+
+```javascript
+var exports = function TrakerrClient(apiKey,
+                                     url,
+                                     contextAppVersion,
+                                     contextEnvName,
+                                     contextEnvVersion,
+                                     contextEnvHostname,
+                                     contextAppOS,
+                                     contextAppOSVersion,
+                                     contextAppBrowser,
+                                     contextAppBrowserVersion,
+                                     contextDataCenter,
+                                     contextDataCenterRegion)
+```
+
+Nearly all of these have default values when passed in `null`. Below is a list of the arguments, and what Trakerr expects so you can pass in custom data.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
@@ -185,7 +202,6 @@ Name | Type | Description | Notes
 **contextAppBrowserVersion** | **str** | (optional) Browser version | [optional if passed `null`] `navigator.appVersion` if navigator is defined.
 **contextDataCenter** | **str** | (optional) Data center | [optional if passed `null`] 
 **contextDataCenterRegion** | **str** | (optional) Data center region | [optional if passed `null`]
-
 
 
 <a name="documentation-for-models"></a>
