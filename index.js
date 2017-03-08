@@ -51,46 +51,36 @@
      * @version 1.0.0
      */
     var exports = function TrakerrClient(apiKey,
-                                         url,
-                                         contextAppVersion,
-                                         contextEnvName,
-                                         contextEnvVersion,
-                                         contextEnvHostname,
-                                         contextAppOS,
-                                         contextAppOSVersion,
-                                         contextAppBrowser,
-                                         contextAppBrowserVersion,
-                                         contextDataCenter,
-                                         contextDataCenterRegion) {
+        contextAppVersion,
+        contextEnvName) {
         var _this = this;
 
         _this.apiKey = apiKey;
-        _this.url = url;
         _this.contextAppVersion = contextAppVersion ? contextAppVersion : '1.0';
         _this.contextEnvName = contextEnvName ? contextEnvName : 'development';
 
-        _this.contextEnvVersion = contextEnvVersion;
-        _this.contextEnvHostname = contextEnvHostname;
-        _this.contextAppOS = contextAppOS;
-        _this.contextAppOSVersion = contextAppOSVersion;
-        _this.contextAppBrowser = contextAppBrowser;
-        _this.contextAppBrowserVersion = contextAppBrowserVersion;
-        _this.contextDataCenter = contextDataCenter;
-        _this.contextDataCenterRegion = contextDataCenterRegion;
+        _this.contextEnvVersion = 'undefined';
+        _this.contextEnvHostname = 'undefined';
+        _this.contextAppOS = 'undefined';
+        _this.contextAppOSVersion = 'undefined';
+        _this.contextAppBrowser = 'undefined';
+        _this.contextAppBrowserVersion = 'undefined';
+        _this.contextDataCenter = 'undefined';
+        _this.contextDataCenterRegion = 'undefined';
 
         if (typeof navigator !== 'undefined') {
-            if (!_this.contextAppOS) _this.contextAppOS = navigator.platform;
-            if (!_this.contextAppOSVersion) _this.contextAppOSVersion = navigator.oscpu;
-            if (!_this.contextAppBrowser) _this.contextAppBrowser = navigator.appCodeName;
-            if (!_this.contextAppBrowserVersion) _this.contextAppBrowserVersion = navigator.appVersion;
+            _this.contextAppOS = navigator.platform;
+            _this.contextAppOSVersion = navigator.oscpu;
+            _this.contextAppBrowser = navigator.appCodeName;
+            _this.contextAppBrowserVersion = navigator.appVersion;
         } else {
             try {
                 var os = require('os');
 
                 if (typeof os !== 'undefined') {
-                    if (!_this.contextAppOS) _this.contextAppOS = os.platform();
-                    if (!_this.contextAppOSVersion) _this.contextAppOSVersion = os.release();
-                    if (!_this.contextEnvHostname) _this.contextEnvHostname = os.hostname();
+                    _this.contextAppOS = os.platform();
+                    _this.contextAppOSVersion = os.release();
+                    _this.contextEnvHostname = os.hostname();
                 }
             } catch (err) {
 
@@ -98,9 +88,7 @@
         }
 
         var apiClient = new TrakerrApi.ApiClient();
-        if (url) {
-            apiClient.basePath = url;
-        }
+
         _this.eventsApi = new TrakerrApi.EventsApi(apiClient);
 
         function fillDefaults(appEvent) {
@@ -239,6 +227,140 @@
             var _this = this;
 
             return _this.eventsApi.eventsPost(fillDefaults(appEvent), callback);
+        };
+
+        //accessors
+
+        TrakerrClient.prototype.get_ApiKey = function () {
+            var _this = this;
+
+            return _this.apiKey;
+        };
+
+        TrakerrClient.prototype.set_ApiKey = function (apikey) {
+            var _this = this;
+
+            _this.apiKey = apikey;
+        };
+
+        TrakerrClient.prototype.get_contextAppVersion = function () {
+            var _this = this;
+
+            return _this.contextAppVersion;
+        };
+
+        TrakerrClient.prototype.set_contextAppVersion = function (contextappversion) {
+            var _this = this;
+
+            _this.contextAppVersion = contextappversion;
+        };
+
+        TrakerrClient.prototype.get_contextEnvName = function () {
+            var _this = this;
+
+            return _this.contextEnvName;
+        };
+
+        TrakerrClient.prototype.set_contextEnvName = function (contextenvname) {
+            var _this = this;
+
+            _this.contextEnvName = contextenvname;
+        };
+
+        TrakerrClient.prototype.get_contextEnvVersion = function () {
+            var _this = this;
+
+            return _this.contextEnvVersion;
+        };
+
+        TrakerrClient.prototype.set_contextEnvVersion = function (contextenvversion) {
+            var _this = this;
+
+            _this.contextEnvVersion = contextenvversion;
+        };
+
+        TrakerrClient.prototype.get_contextEnvHostname = function () {
+            var _this = this;
+
+            return _this.contextEnvHostname;
+        };
+
+        TrakerrClient.prototype.set_contextEnvHostname = function (contextenvhostname) {
+            var _this = this;
+
+            _this.contextEnvHostname = contextenvhostname;
+        };
+
+        TrakerrClient.prototype.get_contextAppOS = function () {
+            var _this = this;
+
+            return _this.contextAppOS;
+        };
+
+        TrakerrClient.prototype.set_contextAppOS = function (contextappos) {
+            var _this = this;
+
+            _this.contextAppOS = contextappos;
+        };
+
+        TrakerrClient.prototype.get_contextAppOSVersion = function () {
+            var _this = this;
+
+            return _this.contextAppOSVersion;
+        };
+
+        TrakerrClient.prototype.set_contextAppOSVersion = function (contextapposversion) {
+            var _this = this;
+
+            _this.contextAppOSVersion = contextapposversion;
+        };
+
+        TrakerrClient.prototype.get_contextAppBrowser = function () {
+            var _this = this;
+
+            return _this.contextAppBrowser;
+        };
+
+        TrakerrClient.prototype.set_contextAppBrowser = function (contextappbrowser) {
+            var _this = this;
+
+            _this.contextAppBrowser = contextappbrowser;
+        };
+
+        TrakerrClient.prototype.get_contextAppBrowserVersion = function () {
+            var _this = this;
+
+            return _this.contextAppBrowserVersion;
+        };
+
+        TrakerrClient.prototype.set_contextAppBrowserVersion = function (contextappbrowserversion) {
+            var _this = this;
+
+            _this.contextAppBrowserVersion = contextappbrowserversion;
+        };
+
+        TrakerrClient.prototype.get_contextDataCenter = function () {
+            var _this = this;
+
+            return _this.contextDataCenter;
+        };
+
+        TrakerrClient.prototype.set_contextDataCenter = function (contextdatacenter) {
+            var _this = this;
+
+            _this.contextDataCenter = contextdatacenter;
+        };
+
+        TrakerrClient.prototype.get_contextDataCenterRegion = function () {
+            var _this = this;
+
+            return _this.contextDataCenter;
+        };
+
+        TrakerrClient.prototype.set_contextDataCenterRegion = function (contextdatacenterregion) {
+            var _this = this;
+
+            _this.contextDataCenterRegion = contextdatacenterregion;
         };
     };
 
