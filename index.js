@@ -259,6 +259,11 @@
                 appEvent.contextAppOSVersion = _this.contextAppOSVersion;
             }
 
+            if (typeof appEvent.contextAppBrowser === 'undefined'){
+                appEvent.contextAppBrowser = _this.contextAppBrowser;
+                appEvent.contextAppBrowserVersion = _this.contextAppBrowserVersion;
+            }
+
             if (typeof appEvent.contextDataCenter === 'undefined') appEvent.contextDataCenter = _this.contextDataCenter;
             if (typeof appEvent.contextDataCenterRegion === 'undefined') appEvent.contextDataCenterRegion = _this.contextDataCenterRegion;
 
