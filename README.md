@@ -15,7 +15,7 @@ The project is hosted on github at: https://github.com/trakerr-io/trakerr-javasc
 
 ### Installation via NPM
 ```
-npm install --save trakerr/trakerr-javascript
+npm install --save trakerr-io/trakerr-javascript
 ```
 
 ### Installation using Bower
