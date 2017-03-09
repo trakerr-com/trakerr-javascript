@@ -51,8 +51,8 @@
 
 
         if (typeof navigator !== 'undefined') {
-            //from http://www.javascripter.net/faq/browsern.htm
-            
+            //from http://stackoverflow.com/questions/9514179/how-to-find-the-operating-system-version-using-javascript
+
             // browser
             var nVer = navigator.appVersion;
             var nAgt = navigator.userAgent;
@@ -84,17 +84,40 @@
                 browser = 'Microsoft Internet Explorer';
                 version = nAgt.substring(verOffset + 5);
             }
+
+            //IE 11 no longer identifies itself as MS IE, so trap it
+            //http://stackoverflow.com/questions/17907445/how-to-detect-ie11
+            else if ((browser == 'Netscape') && (nAgt.indexOf('Trident/') != -1)) {
+                browser = 'Microsoft Internet Explorer';
+                version = nAgt.substring(verOffset + 5);
+                if ((verOffset = nAgt.indexOf('rv:')) != -1) {
+                    version = nAgt.substring(verOffset + 3);
+                }
+
+            }
+
             // Chrome
             else if ((verOffset = nAgt.indexOf('Chrome')) != -1) {
                 browser = 'Chrome';
                 version = nAgt.substring(verOffset + 7);
             }
+
             // Safari
             else if ((verOffset = nAgt.indexOf('Safari')) != -1) {
                 browser = 'Safari';
                 version = nAgt.substring(verOffset + 7);
                 if ((verOffset = nAgt.indexOf('Version')) != -1) {
                     version = nAgt.substring(verOffset + 8);
+                }
+
+                // Chrome on iPad identifies itself as Safari. Actual results do not match what Google claims
+                //  at: https://developers.google.com/chrome/mobile/docs/user-agent?hl=ja
+                //  No mention of chrome in the user agent string. However it does mention CriOS, which presumably
+                //  can be keyed on to detect it.
+                if ((verOffset = nAgt.indexOf('CriOS')) != -1) {
+                    //Chrome on iPad spoofing Safari...correct it.
+                    browser = 'Chrome';
+                    version = nAgt.substring(verOffset + 6);//should get the criOS ver.
                 }
             }
             // Firefox
@@ -201,8 +224,8 @@
             _this.contextEnvVersion = navigator.userAgent;
             _this.contextAppOS = os;
             _this.contextAppOSVersion = osVersion;
-            _this.contextAppBrowser = browserName;
-            _this.contextAppBrowserVersion = fullVersion;
+            _this.contextAppBrowser = browser;
+            _this.contextAppBrowserVersion = version;
 
         } else {
             try {
