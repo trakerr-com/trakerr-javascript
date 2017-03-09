@@ -245,6 +245,11 @@
 
         _this.eventsApi = new TrakerrApi.EventsApi(apiClient);
 
+        /**
+         * Takes the AppEvent and if a field is undefined, fills it with the trakerrclient default.
+         * @param {AppEvent} appEvent An AppEvent instance to fill.
+         * @returns Filled AppEvent Instance.
+         */
         function fillDefaults(appEvent) {
             if (typeof appEvent.apiKey === 'undefined') appEvent.apiKey = _this.apiKey;
 
@@ -259,7 +264,7 @@
                 appEvent.contextAppOSVersion = _this.contextAppOSVersion;
             }
 
-            if (typeof appEvent.contextAppBrowser === 'undefined'){
+            if (typeof appEvent.contextAppBrowser === 'undefined') {
                 appEvent.contextAppBrowser = _this.contextAppBrowser;
                 appEvent.contextAppBrowserVersion = _this.contextAppBrowserVersion;
             }
@@ -271,6 +276,13 @@
             return appEvent;
         }
 
+        /**
+         * Gets the error information and seralizes the stacktrace to sent to trakerr
+         * @param {object} error Error captured.
+         * @param {string} classification String representation of the level.
+         * @param {stackframe[]} stackFrames Stackframes to parse.
+         * @return New AppEvent instance.
+         */
         function fillStacktrace(error, classification, stackFrames) {
             var type = (typeof error === 'object') ? error.constructor.name : (typeof error).toString();
 
@@ -294,6 +306,13 @@
             return newEvent;
         }
 
+        /**
+         * Takes a captured error and sends it.
+         * @param {*} err Error that has been triggered.
+         * @param {*} classification string representation on the level of the error.
+         * @param {*} shouldDie boolean on if the program should crash after handling.
+         * @param {*} callbackFn callback function for sendEvent. Falsy value if you don't need it.
+         */
         function sendEventFromError(err, classification, shouldDie, callbackFn) {
             StackTrace
                 .fromError(err)
