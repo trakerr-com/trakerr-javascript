@@ -138,7 +138,7 @@
             }
 
             // system
-            var os = unknown;
+            var os = undefined;
             var clientStrings = [
                 { s: 'Windows 10', r: /(Windows 10.0|Windows NT 10.0)/ },
                 { s: 'Windows 8.1', r: /(Windows 8.1|Windows NT 6.3)/ },
@@ -197,7 +197,7 @@
                     break;
             }
 
-            document.getElementById("outputhook").innerHTML = "Hello!";
+            //document.getElementById("outputhook").innerHTML = "Hello!";
             _this.contextEnvVersion = navigator.userAgent;
             _this.contextAppOS = os;
             _this.contextAppOSVersion = osVersion;
