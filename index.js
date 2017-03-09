@@ -52,6 +52,7 @@
 
         if (typeof navigator !== 'undefined') {
             //from http://www.javascripter.net/faq/browsern.htm
+            
             // browser
             var nVer = navigator.appVersion;
             var nAgt = navigator.userAgent;
@@ -196,6 +197,7 @@
                     break;
             }
 
+            document.getElementById("outputhook").innerHTML = "Hello!";
             _this.contextEnvVersion = navigator.userAgent;
             _this.contextAppOS = os;
             _this.contextAppOSVersion = osVersion;
