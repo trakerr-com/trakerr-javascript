@@ -50,7 +50,7 @@
         _this.contextEnvName = contextEnvName ? contextEnvName : 'development';
 
 
-        if (typeof navigator !== 'undefined') {
+        if (typeof navigator !== undefined) {
             //from http://stackoverflow.com/questions/9514179/how-to-find-the-operating-system-version-using-javascript
 
             // browser
@@ -220,7 +220,7 @@
                     break;
             }
 
-            //document.getElementById("outputhook").innerHTML = "Hello!";
+            document.getElementById("outputhook").innerHTML = "I'm a browser!";
             _this.contextEnvVersion = navigator.userAgent;
             _this.contextAppOS = os;
             _this.contextAppOSVersion = osVersion;
