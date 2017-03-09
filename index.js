@@ -175,7 +175,7 @@
                 }
             }
 
-            var osVersion = unknown;
+            var osVersion = undefined;
 
             if (/Windows/.test(os)) {
                 osVersion = /Windows (.*)/.exec(os)[1];
