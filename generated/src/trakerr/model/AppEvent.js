@@ -53,17 +53,20 @@
    * @alias module:trakerr/model/AppEvent
    * @class
    * @param apiKey {String} API key generated for the application
-   * @param classification {String} one of 'debug','info','warning','error' or a custom string
-   * @param eventType {String} type or event or error (eg. NullPointerException)
+   * @param classification {String} (optional) one of 'error' or a custom string for non-errors, defaults to 'error'
+   * @param eventType {String} type of the event or error (eg. NullPointerException)
    * @param eventMessage {String} message containing details of the event or error
    */
   var exports = function(apiKey, classification, eventType, eventMessage) {
     var _this = this;
 
     _this['apiKey'] = apiKey;
+
     _this['classification'] = classification;
     _this['eventType'] = eventType;
     _this['eventMessage'] = eventMessage;
+
+
 
 
 
@@ -96,6 +99,9 @@
       if (data.hasOwnProperty('apiKey')) {
         obj['apiKey'] = ApiClient.convertToType(data['apiKey'], 'String');
       }
+      if (data.hasOwnProperty('logLevel')) {
+        obj['logLevel'] = ApiClient.convertToType(data['logLevel'], 'String');
+      }
       if (data.hasOwnProperty('classification')) {
         obj['classification'] = ApiClient.convertToType(data['classification'], 'String');
       }
@@ -120,8 +126,14 @@
       if (data.hasOwnProperty('contextAppVersion')) {
         obj['contextAppVersion'] = ApiClient.convertToType(data['contextAppVersion'], 'String');
       }
+      if (data.hasOwnProperty('deploymentStage')) {
+        obj['deploymentStage'] = ApiClient.convertToType(data['deploymentStage'], 'String');
+      }
       if (data.hasOwnProperty('contextEnvName')) {
         obj['contextEnvName'] = ApiClient.convertToType(data['contextEnvName'], 'String');
+      }
+      if (data.hasOwnProperty('contextEnvLanguage')) {
+        obj['contextEnvLanguage'] = ApiClient.convertToType(data['contextEnvLanguage'], 'String');
       }
       if (data.hasOwnProperty('contextEnvVersion')) {
         obj['contextEnvVersion'] = ApiClient.convertToType(data['contextEnvVersion'], 'String');
@@ -163,12 +175,17 @@
    */
   exports.prototype['apiKey'] = undefined;
   /**
-   * one of 'debug','info','warning','error' or a custom string
+   * (optional) Logging level, one of 'debug','info','warning','error', 'fatal', defaults to 'error'
+   * @member {module:trakerr/model/AppEvent.LogLevelEnum} logLevel
+   */
+  exports.prototype['logLevel'] = undefined;
+  /**
+   * (optional) one of 'error' or a custom string for non-errors, defaults to 'error'
    * @member {String} classification
    */
   exports.prototype['classification'] = undefined;
   /**
-   * type or event or error (eg. NullPointerException)
+   * type of the event or error (eg. NullPointerException)
    * @member {String} eventType
    */
   exports.prototype['eventType'] = undefined;
@@ -202,10 +219,20 @@
    */
   exports.prototype['contextAppVersion'] = undefined;
   /**
-   * (optional) one of 'development','staging','production' or a custom string
+   * (optional) deployment stage, one of 'development','staging','production' or a custom string
+   * @member {String} deploymentStage
+   */
+  exports.prototype['deploymentStage'] = undefined;
+  /**
+   * (optional) environment name (like 'cpython' or 'ironpython' etc.)
    * @member {String} contextEnvName
    */
   exports.prototype['contextEnvName'] = undefined;
+  /**
+   * (optional) language (like 'python' or 'c#' etc.)
+   * @member {String} contextEnvLanguage
+   */
+  exports.prototype['contextEnvLanguage'] = undefined;
   /**
    * (optional) version of environment
    * @member {String} contextEnvVersion
@@ -255,6 +282,38 @@
    */
   exports.prototype['customSegments'] = undefined;
 
+
+  /**
+   * Allowed values for the <code>logLevel</code> property.
+   * @enum {String}
+   * @readonly
+   */
+  exports.LogLevelEnum = {
+    /**
+     * value: "debug"
+     * @const
+     */
+    "debug": "debug",
+    /**
+     * value: "info"
+     * @const
+     */
+    "info": "info",
+    /**
+     * value: "warning"
+     * @const
+     */
+    "warning": "warning",
+    /**
+     * value: "error"
+     * @const
+     */
+    "error": "error",
+    /**
+     * value: "fatal"
+     * @const
+     */
+    "fatal": "fatal"  };
 
 
   return exports;
