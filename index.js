@@ -42,12 +42,14 @@
      */
     var exports = function TrakerrClient(apiKey,
         contextAppVersion,
-        contextEnvName) {
+        contextDeploymentStage) {
         var _this = this;
 
         _this.apiKey = apiKey;
         _this.contextAppVersion = contextAppVersion ? contextAppVersion : '1.0';
-        _this.contextEnvName = contextEnvName ? contextEnvName : 'development';
+        _this.contextDeploymentStage = contextDeploymentStage ? contextDeploymentStage : 'development';
+        _this.contextEnvLanguage = "JavaScript"
+        _this.contextEnvName = "JavaScript";
 
 
         if (typeof navigator !== undefined) {
@@ -255,6 +257,8 @@
 
             if (typeof appEvent.contextAppVersion === 'undefined') appEvent.contextAppVersion = _this.contextAppVersion;
 
+            if (typeof appEvent.deploymentStage === 'undefined') appEvent.deploymentStage = _this.deploymentStage;
+            if (typeof appEvent.contextEnvLanguage === 'undefined') appEvent.contextEnvLanguage = _this.contextEnvLanguage;
             if (typeof appEvent.contextEnvName === 'undefined') appEvent.contextEnvName = _this.contextEnvName;
             if (typeof appEvent.contextEnvVersion === 'undefined') appEvent.contextEnvVersion = _this.contextEnvVersion;
             if (typeof appEvent.contextEnvHostname === 'undefined') appEvent.contextEnvHostname = _this.contextEnvHostname;
@@ -279,14 +283,15 @@
         /**
          * Gets the error information and seralizes the stacktrace to sent to trakerr
          * @param {object} error Error captured.
-         * @param {string} classification String representation of the level.
+         * @param {string} logLevel String representation of the level.
+         * @param {string} classification optional extra error string 
          * @param {stackframe[]} stackFrames Stackframes to parse.
          * @return New AppEvent instance.
          */
-        function fillStacktrace(error, classification, stackFrames) {
+        function fillStacktrace(error, logLevel, classification, stackFrames) {
             var type = (typeof error === 'object') ? error.constructor.name : (typeof error).toString();
 
-            var newEvent = _this.createAppEvent(classification ? classification : "Error", type, error.toString());
+            var newEvent = _this.createAppEvent(logLevel ? logLevel : "Error", classification, type, error.toString());
             newEvent.eventStacktrace = new TrakerrApi.Stacktrace();
 
             var innerTrace = new TrakerrApi.InnerStackTrace();
@@ -313,11 +318,11 @@
          * @param {*} shouldDie boolean on if the program should crash after handling.
          * @param {*} callbackFn callback function for sendEvent. Falsy value if you don't need it.
          */
-        function sendEventFromError(err, classification, shouldDie, callbackFn) {
+        function sendEventFromError(err, logLevel, classification, shouldDie, callbackFn) {
             StackTrace
                 .fromError(err)
                 .then(function (stackFrames) {
-                    var newEvent = fillStacktrace(err, classification, stackFrames);
+                    var newEvent = fillStacktrace(err, logLevel, classification, stackFrames);
                     if (callbackFn) {
                         callbackFn(newEvent);
                     }
@@ -373,14 +378,17 @@
          * @param eventMessage event message
          * @returns app event
          */
-        TrakerrClient.prototype.createAppEvent = function (classification, eventType, eventMessage) {
+        TrakerrClient.prototype.createAppEvent = function (logLevel, classification, eventType, eventMessage) {
             var _this = this;
-
-            if (!classification) classification = "Error";
+            if (!logLevel) logLevel = 'Error';
+            if (!classification) classification = "unknown";
             if (!eventType) eventType = 'unknown';
             if (!eventMessage) eventMessage = 'unknown';
 
-            return fillDefaults(new TrakerrApi.AppEvent(_this.apiKey, classification, eventType, eventMessage));
+            appevent = new TrakerrApi.AppEvent(_this.apiKey, classification, eventType, eventMessage);
+            appevent.logLevel = logLevel;
+
+            return fillDefaults(appevent);
         };
 
 
@@ -388,11 +396,12 @@
          * Send err to Trackerr with optional callback to populate custom properties
          *
          * @param err the error to send
-         * @param classification    classification like "Error", "Debug", "Warning" or "Info" or a custom string
-         * @param callbackFn        (optional) callback function that is called with one parameter i.e. the event, so other properties can be populated before the event is sent
+         * @param {string} logLevel classification like "Error", "Debug", "Warning" or "Info" or a custom string
+         * @param {string} classification (optional) error descriptor string on what the specific error is under it's type
+         * @param {function} callbackFn (optional) callback function that is called with one parameter i.e. the event, so other properties can be populated before the event is sent
          */
-        TrakerrClient.prototype.sendError = function (err, classification, callbackFn) {
-            sendEventFromError(err, classification, false, callbackFn);
+        TrakerrClient.prototype.sendError = function (err, logLevel, classification, callbackFn) {
+            sendEventFromError(err, logLevel, classification, false, callbackFn);
         };
 
         /**
