@@ -33,7 +33,6 @@
 
     /**
      * Create a TrakerrClient instance
-     *
      * @param apiKey API Key for the application
      * @param contextAppVersion (optional) application version, defaults to 1.0
      * @param contextEnvName (optional) environment name like "development", "staging", "production" or a custom string
@@ -385,8 +384,11 @@
             if (!eventType) eventType = 'unknown';
             if (!eventMessage) eventMessage = 'unknown';
 
+            console.debug("Before creating appevent.")
             appevent = new TrakerrApi.AppEvent(_this.apiKey, classification, eventType, eventMessage);
+            console.debug("After Creating event")
             appevent.logLevel = logLevel;
+            console.debug("After assigning logLevel")
 
             return fillDefaults(appevent);
         };
