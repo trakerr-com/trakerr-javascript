@@ -48,7 +48,7 @@
         _this.apiKey = apiKey;
         _this.contextAppVersion = contextAppVersion ? contextAppVersion : '1.0';
         _this.contextDeploymentStage = contextDeploymentStage ? contextDeploymentStage : 'development';
-        _this.contextEnvLanguage = "JavaScript"
+        _this.contextEnvLanguage = "JavaScript";
         _this.contextEnvName = "JavaScript";
 
 
@@ -350,7 +350,7 @@
          *
          * @param shouldDie should the process exit on error (applicable to node or other environments, ignored if in browser)
          */
-        TrakerrClient.prototype.handleExceptions = function (shouldDie) {
+        TrakerrClient.prototype.handleExceptions = function(shouldDie) {
             if (typeof window !== 'undefined') {
                 window.onerror = function (msg, file, line, col, error) {
                     var string = msg.toLowerCase();
@@ -416,8 +416,8 @@
             return _this.eventsApi.eventsPost(fillDefaults(appEvent), callback);
         };
 
-        //accessors
 
+        //accessors
         TrakerrClient.prototype.get_ApiKey = function () {
             var _this = this;
 
@@ -440,6 +440,30 @@
             var _this = this;
 
             _this.contextAppVersion = contextappversion;
+        };
+
+        TrakerrClient.prototype.get_contextDeploymentStage = function () {
+            var _this = this;
+
+            return _this.contextDeploymentStage;
+        };
+
+        TrakerrClient.prototype.set_contextDeploymentStage = function (contextdeploymentstage) {
+            var _this = this;
+
+            _this.contextDeploymentStage = contextdeploymentstage;
+        };
+
+        TrakerrClient.prototype.get_contextEnvLanguage = function () {
+            var _this = this;
+
+            return _this.contextEnvLanguage;
+        };
+
+        TrakerrClient.prototype.set_contextEnvLanguage = function (contextenvlanguage) {
+            var _this = this;
+
+            _this.contextEnvLanguage = contextenvlanguage;
         };
 
         TrakerrClient.prototype.get_contextEnvName = function () {
