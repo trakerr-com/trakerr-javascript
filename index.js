@@ -384,11 +384,8 @@
             if (!eventType) eventType = 'unknown';
             if (!eventMessage) eventMessage = 'unknown';
 
-            console.debug("Before creating appevent.")
             var appevent = new TrakerrApi.AppEvent(_this.apiKey, classification, eventType, eventMessage);
-            console.debug("After Creating event")
             appevent.logLevel = logLevel;
-            console.debug("After assigning logLevel")
 
             return fillDefaults(appevent);
         };
