@@ -380,7 +380,7 @@
         TrakerrClient.prototype.createAppEvent = function (logLevel, classification, eventType, eventMessage) {
             var _this = this;
             if (!logLevel) logLevel = 'Error';
-            if (!classification) classification = "unknown";
+            if (!classification) classification = "issue";
             if (!eventType) eventType = 'unknown';
             if (!eventMessage) eventMessage = 'unknown';
 
