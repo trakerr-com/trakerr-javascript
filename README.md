@@ -193,7 +193,7 @@ Name | Type | Description | Notes
 **contextDevelopmentStage** | **string** | One of development, staging, production; or a custom string. | Default Value: "develoment"
 **contextEnvLanguage** | **string** | Constant string representing the language the application is in. | Default value: "JavaScript"
 **contextEnvName** | **string** | Name of the interpreter the program is run on. | Default Value: "JavaScript"
-**contextEnvVersion** | **string** | "Version" of JavaScript this program is running on. While this field is useful in other languages, since each browser or server impements their own features, sometimes not along version specification lines, the default value represents that. | Default Value: `navigator.userAgent`if navigator is defined, `undefined` otherwise
+**contextEnvVersion** | **string** | "Version" of JavaScript this program is running on. While this field is useful in other languages, since each browser or server impements their own features, sometimes not along version specification lines, the default value instead provided another useful value that may come close to being a version. | Default Value: `navigator.userAgent`if navigator is defined, `undefined` otherwise
 **contextEnvHostname** | **string** | Hostname or ID of environment. | Default value: `os.hostname()` in a non-browser enviroment, `undefined` otherwise.
 **contextAppOS** | **string** | OS the application is running on. | Default value: OS name (ie. Windows, MacOS).
 **contextAppOSVersion** | **string** | OS Version the application is running on. | Default value: OS Version.
