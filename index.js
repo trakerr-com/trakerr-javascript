@@ -256,7 +256,7 @@
 
             if (typeof appEvent.contextAppVersion === 'undefined') appEvent.contextAppVersion = _this.contextAppVersion;
 
-            if (typeof appEvent.deploymentStage === 'undefined') appEvent.deploymentStage = _this.deploymentStage;
+            if (typeof appEvent.deploymentStage === 'undefined') appEvent.deploymentStage = _this.contextDeploymentStage;
             if (typeof appEvent.contextEnvLanguage === 'undefined') appEvent.contextEnvLanguage = _this.contextEnvLanguage;
             if (typeof appEvent.contextEnvName === 'undefined') appEvent.contextEnvName = _this.contextEnvName;
             if (typeof appEvent.contextEnvVersion === 'undefined') appEvent.contextEnvVersion = _this.contextEnvVersion;
