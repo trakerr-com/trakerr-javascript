@@ -39,7 +39,7 @@
      * @param contextAppVersion (optional) application version, defaults to 1.0
      * @param contextEnvName (optional) environment name like "development", "staging", "production" or a custom string
      * @module index
-     * @version 1.0.1
+     * @version 1.0.2
      */
     var exports = function TrakerrClient(apiKey,
         contextAppVersion,

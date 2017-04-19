@@ -117,7 +117,7 @@ module.exports = function (grunt) {
             },
             sources: {
                 src: ['generated/src/trakerr/**/*.js', 'index.js'],
-                dest: 'dist/app-uglified.js',
+                dest: 'dist/trakerr.min.js',
                 sourceMap: true
             }
         },
