@@ -28,7 +28,7 @@
         // CommonJS-like environments that support module.exports, like Node.
         module.exports = factory(require('./generated/src/trakerr/index'), require('stacktrace-js'), require('error-stack-parser'));
     }
-}(function (TrakerrApi, StackTrace, ErrorStackParser) {
+}(function (TrakerrApi, StackTrace) {
     'use strict';
 
     /**
@@ -51,7 +51,7 @@
         _this.contextEnvName = "JavaScript";
 
 
-        if (typeof navigator !== undefined) {
+        if (typeof navigator !== 'undefined') {
             //from http://stackoverflow.com/questions/9514179/how-to-find-the-operating-system-version-using-javascript
 
             // browser
@@ -221,7 +221,7 @@
                     break;
             }
 
-            document.getElementById("outputhook").innerHTML = "I'm a browser!";
+            //document.getElementById("outputhook").innerHTML = "I'm a browser!"; Debug statement. Commented out for hotfix
             _this.contextEnvVersion = navigator.userAgent;
             _this.contextAppOS = os;
             _this.contextAppOSVersion = osVersion;
@@ -256,7 +256,7 @@
 
             if (typeof appEvent.contextAppVersion === 'undefined') appEvent.contextAppVersion = _this.contextAppVersion;
 
-            if (typeof appEvent.deploymentStage === 'undefined') appEvent.deploymentStage = _this.deploymentStage;
+            if (typeof appEvent.deploymentStage === 'undefined') appEvent.deploymentStage = _this.contextDeploymentStage;
             if (typeof appEvent.contextEnvLanguage === 'undefined') appEvent.contextEnvLanguage = _this.contextEnvLanguage;
             if (typeof appEvent.contextEnvName === 'undefined') appEvent.contextEnvName = _this.contextEnvName;
             if (typeof appEvent.contextEnvVersion === 'undefined') appEvent.contextEnvVersion = _this.contextEnvVersion;

@@ -1,4 +1,4 @@
-# trakerr-javascript - the javascript library for the Trakerr API
+# Trakerr-javascript API client
 
 Get your application events and errors to Trakerr via the *Trakerr API*.
 
@@ -176,39 +176,31 @@ mod.factory('$exceptionHandler', function ($log, config) {
 
 ## The TrakerrClient Constructor
 
-The `TrakerrClient` class above can be constructed to take aditional data, rather than using the configured defaults. The constructor signature is:
+The `TrakerrClient`'s constructor initalizes the default values to all of TrakerrClient's properties.
 
 ```javascript
 var exports = function TrakerrClient(apiKey,
-                                     url,
                                      contextAppVersion,
-                                     contextEnvName,
-                                     contextEnvVersion,
-                                     contextEnvHostname,
-                                     contextAppOS,
-                                     contextAppOSVersion,
-                                     contextAppBrowser,
-                                     contextAppBrowserVersion,
-                                     contextDataCenter,
-                                     contextDataCenterRegion)
+                                     contextDevelopementStage)
 ```
 
-Nearly all of these have default values when passed in `null`. Below is a list of the arguments, and what Trakerr expects so you can pass in custom data.
+The TrakerrClient class however has a lot of exposed properties. The benefit to setting these immediately after after you create the TrakerrClient is that AppEvent will default it's values against the TrakerClient that created it. This way if there is a value that all your AppEvents uses, and the constructor default value currently doesn't suit you; it may be easier to change it in TrakerrClient as it will become the default value for all AppEvents created after. A lot of these are populated by default value by the constructor, but you can populate them with whatever string data you want. The following table provides an in depth look at each of those.
 
 Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**apiKey** | **str** | API Key for the application | 
-**url** | **str** | (optional) URL to Trakerr. | [optional if passed `null`] Specify null to use default from apiClient.basePath.
-**contextAppVersion** | **str** | (optional) Application version. | [optional if passed `null`] Default value: "1.0".
-**contextEnvName** | **str** | (optional) Environment name like "development", "staging", "production" or a custom string. | [optional if passed `null`] Default Value: "develoment".
-**contextEnvVersion** | **str** | (optional) Environment version. | [optional if passed `null`]
-**contextEnvHostname** | **str** | (optional) Environment hostname. | [optional if passed `null`] Default value: `os.hostname()` if the `os` library is defined.
-**contextAppOS** | **str** | (optional) Operating system. | [optional if passed `null`] Default value: `navigator.platform` if the navigator is defined by the browser, `os.platform()` if the application is not running on the browser.
-**contextAppOSVersion** | **str** | (optional) Operating system version. | [optional if passed `null`] Default value: `navigator.oscpu` if navigator is defined, `os.release()` otherwise.
-**contextAppBrowser** | **str** | (optional) Browser name | [optional if passed `null`] Default value: `navigator.appCodeName` if navigator is defined.
-**contextAppBrowserVersion** | **str** | (optional) Browser version | [optional if passed `null`] Default value: `navigator.appVersion` if navigator is defined.
-**contextDataCenter** | **str** | (optional) Data center | [optional if passed `null`] 
-**contextDataCenterRegion** | **str** | (optional) Data center region | [optional if passed `null`]
+------------ | ------------- | -------------  | -------------
+**apiKey** | **string** | API key generated for the application | 
+**contextAppVersion** | **string** | Application version information. | Default value: "1.0" 
+**contextDevelopmentStage** | **string** | One of development, staging, production; or a custom string. | Default Value: "develoment"
+**contextEnvLanguage** | **string** | Constant string representing the language the application is in. | Default value: "JavaScript"
+**contextEnvName** | **string** | Name of the interpreter the program is run on. | Default Value: "JavaScript"
+**contextEnvVersion** | **string** | "Version" of JavaScript this program is running on. While this field is useful in other languages, since each browser or server impements their own features, sometimes not along version specification lines, the default value instead provided another useful value that may come close to being a version. | Default Value: `navigator.userAgent`if navigator is defined, `undefined` otherwise
+**contextEnvHostname** | **string** | Hostname or ID of environment. | Default value: `os.hostname()` in a non-browser enviroment, `undefined` otherwise.
+**contextAppOS** | **string** | OS the application is running on. | Default value: OS name (ie. Windows, MacOS).
+**contextAppOSVersion** | **string** | OS Version the application is running on. | Default value: OS Version.
+**contextAppOSBrowser** | **string** | An optional string browser name the application is running on. | Defaults to the browser name if the app is running from a browser.
+**contextAppOSBrowserVersion** | **string** | An optional string browser version the application is running on. | Defaults to the browser version if the app is running from a browser.
+**contextDataCenter** | **string** | Data center the application is running on or connected to. | Defaults to `nil`
+**contextDataCenterRegion** | **string** | Data center region. | Defaults to `nil`
 
 
 <a name="documentation-for-models"></a>
