@@ -221,7 +221,7 @@
                     break;
             }
 
-            document.getElementById("outputhook").innerHTML = "I'm a browser!";
+            //document.getElementById("outputhook").innerHTML = "I'm a browser!"; Debug statement. Commented out for hotfix
             _this.contextEnvVersion = navigator.userAgent;
             _this.contextAppOS = os;
             _this.contextAppOSVersion = osVersion;
