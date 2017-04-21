@@ -20,15 +20,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function (factory) {
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['./generated/src/trakerr/index', 'stacktrace-js'], factory);
-    } else if (typeof module === 'object' && module.exports) {
-        // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('./generated/src/trakerr/index'), require('stacktrace-js'), require('error-stack-parser'));
-    }
-}(function (TrakerrApi, StackTrace) {
+(function (root, factory) {
+   if (typeof define === 'function' && define.amd) {
+       // AMD. Register as an anonymous module.
+       define(['./generated/src/trakerr/index', 'stacktrace-js'], factory);
+   } else if (typeof module === 'object' && module.exports) {
+       // CommonJS-like environments that support module.exports, like Node.
+       module.exports = factory(require('./generated/src/trakerr/index'), require('stacktrace-js'));
+   } else {
+       root.TrakerrClient = factory(root.TrakerrApi, root.StackTrace);
+   }
+}(this, function (TrakerrApi, StackTrace) {
     'use strict';
 
     /**
@@ -37,7 +39,7 @@
      * @param contextAppVersion (optional) application version, defaults to 1.0
      * @param contextEnvName (optional) environment name like "development", "staging", "production" or a custom string
      * @module index
-     * @version 1.0.1
+     * @version 1.0.2
      */
     var exports = function TrakerrClient(apiKey,
         contextAppVersion,
@@ -328,9 +330,9 @@
                     _this.sendEvent(newEvent, function (error, data, response) {
                         if (error) {
                             console.error('Error Response: ' + error + ', data = ' + data + ', response = ' + JSON.stringify(response));
-                        } else {
+                        } /*else {
                             console.log('Response: data = ' + data + ', response = ' + JSON.stringify(response));
-                        }
+                        }*/
                         if (shouldDie) {
                             process.exit(1);
                         }
