@@ -205,7 +205,6 @@
 
             if (/Windows/.test(os)) {
                 osVersion = /Windows (.*)/.exec(os)[1];
-                os = 'Windows';
             }
 
             switch (os) {
@@ -292,7 +291,7 @@
         function fillStacktrace(error, logLevel, classification, stackFrames) {
             var type = (typeof error === 'object') ? error.constructor.name : (typeof error).toString();
 
-            var newEvent = _this.createAppEvent(logLevel ? logLevel : "Error", classification, type, error.toString());
+            var newEvent = _this.createAppEvent(logLevel ? logLevel : "Error", classification ? classification : "issue", type, error.toString());
             newEvent.eventStacktrace = new TrakerrApi.Stacktrace();
 
             var innerTrace = new TrakerrApi.InnerStackTrace();
@@ -319,12 +318,12 @@
          * @param {*} shouldDie boolean on if the program should crash after handling.
          * @param {*} callbackFn callback function for sendEvent. Falsy value if you don't need it.
          */
-        function sendEventFromError(err, logLevel, classification, shouldDie, callbackFn) {
+        function sendEventFromError(err, logLevel, classification, shouldDie, callbackFn) {           
             StackTrace
                 .fromError(err)
                 .then(function (stackFrames) {
                     var newEvent = fillStacktrace(err, logLevel, classification, stackFrames);
-                    if (callbackFn) {
+                    if (typeof callbackFn !== 'undefined' && callbackFn !== null) {
                         callbackFn(newEvent);
                     }
                     _this.sendEvent(newEvent, function (error, data, response) {
@@ -359,13 +358,13 @@
                     if (string.indexOf(substring) > -1) {
                         console.error('Script Error: Script error encountered, see browser console for more.');
                     } else {
-                        sendEventFromError(error, "Error", false);
+                        sendEventFromError(error, "Error", "issue", false);
                     }
                 }
             } else if (typeof process !== 'undefined') {
                 shouldDie = (typeof shouldDie === 'undefined') ? true : shouldDie;
                 process.on('uncaughtException', function (err) {
-                    sendEventFromError(err, "Error", shouldDie);
+                    sendEventFromError(err, "Error", "issue", shouldDie);
                 });
             }
         };
