@@ -150,7 +150,8 @@ The library also works in the browser environment. Simply include the trakerr.mi
 ```html
 <script src="trakerr.min.js"></script>
 ```
-You should not need to `require` in the previous examples. Otherwise, they should all work.
+You should not need to utilize the npm based `require` in the previous examples. Otherwise, they should all work.
+
 ### For angular
 Install an $exceptionHandler as shown below.
 
@@ -186,7 +187,7 @@ var exports = function TrakerrClient(apiKey,
                                      contextDevelopementStage)
 ```
 
-The TrakerrClient class however has a lot of exposed properties. The benefit to setting these immediately after after you create the TrakerrClient is that AppEvent will default it's values against the TrakerClient that created it. This way if there is a value that all your AppEvents uses, and the constructor default value currently doesn't suit you; it may be easier to change it in TrakerrClient as it will become the default value for all AppEvents created after. A lot of these are populated by default value by the constructor, but you can populate them with whatever string data you want. The following table provides an in depth look at each of those.
+The TrakerrClient module has a lot of exposed properties. The benefit to setting these immediately after after you create the TrakerrClient is that AppEvent will default it's values against the TrakerClient that created it. This way if there is a value that all your AppEvents uses, and the constructor default value currently doesn't suit you; it may be easier to change it in TrakerrClient as it will become the default value for all AppEvents created after. A lot of these are populated by default value by the constructor, but you can populate them with whatever string data you want. The following table provides an in depth look at each of those.
 
 Name | Type | Description | Notes
 ------------ | ------------- | -------------  | -------------
