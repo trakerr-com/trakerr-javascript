@@ -3,10 +3,10 @@
 Get your application events and errors to Trakerr via the *Trakerr API*.
 
 - API version: 1.0.0
-- SDK version: 1.0.0
+- SDK version: 1.0.2
 
 ## Frameworks supported
-- browserify/webpack etc.
+- grunt.js (if you want to build from source)
 - jquery 
 - nodejs
 
@@ -137,15 +137,11 @@ try {
 
 ### For browser
 
-The library also works in the browser environment via npm and [browserify](http://browserify.org/). After following
-the above steps with Node.js and installing browserify with `npm install -g browserify`,
-perform the following (assuming *main.js* is your entry file):
+The library also works in the browser environment. Simply include the trakerr.min.js in the dist folder of our repo as a script, and you should be able to call TrackerrClient from the following scripts. The command to include TrakerrClient on your page would look like:
 
-```shell
-browserify main.js > bundle.js
+```html
+<script src="trakerr.min.js"></script>
 ```
-
-Then include *bundle.js* in the HTML pages.
 
 ### For angular
 
