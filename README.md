@@ -33,7 +33,7 @@ bower install https://github.com/trakerr-io/trakerr-javascript
 ## Getting Started (Node/Browser)
 This library works with both node apps and browser apps seamlessly. 
 
-For node apps just installing the above dependencies and bootstrapping the code similar to the below is sufficient. For browser apps, we recommend browserify [as instructed here](#For browser).
+For node apps just installing the above dependencies and bootstrapping the code similar to the below is sufficient. See the instructions below for the browser.
 
 ### Create a client
 In your script, the first thing before sending an event is to create a client. For npm apps, you may use require, but other options are also listed below.
