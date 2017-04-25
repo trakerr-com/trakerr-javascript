@@ -109,7 +109,7 @@ try {
 }
 ```
 
-We recommend with the above samples 2-4 you populate the EventUser and EventSession fields of app event with the pertinant data to help you identify issues.
+We recommend with the above samples 2-4 you populate the EventUser and EventSession fields of app event with the pertinant data to help you identify issues. Option 1 sends no custom data at this time.
 
 ### Full sample
 ```javascript
