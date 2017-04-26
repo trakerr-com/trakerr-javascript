@@ -44,7 +44,7 @@ var client = new TrakerrClient('<your api key here>', '<app version here>', '<de
 ```
 
 ### Option-1: Handle exceptions with a global handler
-Calling handleExceptions will send any following error to Trakerr using the onerror handler. If you are calling this from the browser, you may need to handle any exceptions you encounter yourself, as we only send the event to trakerr. If you are not, read about handleException's shouldDie flag.
+Calling handleExceptions will send any following error to Trakerr using the onerror handler. If you are calling this from the browser, the shouldDie flag is not relevent to you; and this will catch all unhandled thrown errors. If you are not calling the library from the browser, read about handleException's shouldDie flag.
 
 ```javascript
 // Option-1: Add a global exception handler,
