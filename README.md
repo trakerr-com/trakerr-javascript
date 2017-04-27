@@ -1,36 +1,51 @@
-# Trakerr-javascript API client
+# Trakerr-Javascript API Client
+Get your application events and errors to Trakerr via the *Trakerr API
 
-Get your application events and errors to Trakerr via the *Trakerr API*.
-
-- API version: 1.0.0
-- SDK version: 1.0.2
-
-## Frameworks supported
-- grunt.js (if you want to build from source)
+## Frameworks Supported
 - jquery 
 - nodejs
+- browser
+- angular
 
 ## Dependencies
-The project is hosted on github at: https://github.com/trakerr-io/trakerr-javascript.
+- [grunt.js](https://gruntjs.com/) (if you want to build from source)
+- [superagent.js](https://github.com/visionmedia/superagent)
+- [stacktrace.js](https://www.stacktracejs.com/)
+
+For installation on the browser, be sure to follow the instructions on including both of the above on their pages before adding ours as a script. Use the minified versions in the above order if you can.
 
 ### Installation via NPM
-```
-npm install --save trakerr-io/trakerr-javascript
+```bash
+npm install --only=prod --save trakerr-io/trakerr-javascript
 ```
 
 To install off a branch which may have experimental features, you can use:
 
-```
-npm install --save trakerr-io/trakerr-javascript#<branch name>
+```bash
+npm install --only=prod --save trakerr-io/trakerr-javascript#<branch name>
 ```
 without the angle brackets.
 
 ### Installation using Bower
-```
+```bash
 bower install https://github.com/trakerr-io/trakerr-javascript
 ```
 
-## Getting Started (Node/Browser)
+### Installation on the Browser
+Your page loading the scripts should look something like:
+
+```html
+<body>
+  <script src="superagent.min.js"></script>
+  <script src="stacktrace.min.js"></script>
+  <script src="trakerr.min.js"></script>
+  <script src="your_js_code.js"></script>
+</body>
+```
+
+You can grab the minified version of our code in the dist folder of this repository. Be sure to include our dependancies above.
+
+## Getting Started
 This library works with both node apps and browser apps seamlessly. 
 
 For node apps just installing the above dependencies and bootstrapping the code similar to the below is sufficient. See the instructions below for the browser.
@@ -39,9 +54,50 @@ For node apps just installing the above dependencies and bootstrapping the code 
 In your script, the first thing before sending an event is to create a client. For npm apps, you may use require, but other options are also listed below.
 
 ```javascript
-var TrakerrClient = require('trakerr-javascript');
+var TrakerrClient = require('trakerr-javascript'); //This is only necessary for NPM use.
 var client = new TrakerrClient('<your api key here>', '<app version here>', '<deployment stage here>'); // replace value within quotes with your values instead
 ```
+
+### Quick Integration with Angular
+Install an $exceptionHandler as shown below:
+
+```javascript
+var TrakerrClient = require('trakerr-javascript');
+
+mod.factory('$exceptionHandler', function ($log, config) {
+    //Replace value within quotes with your API key instead
+    var client = new TrakerrClient('<your api key here>');
+    
+    // create a new event
+    var appEvent = client.createAppEvent();
+    
+    appEvent.contextEnvName = config.envName;
+    
+    return function (exception, cause) {
+
+        $log.error(exception);
+
+        client.sendEvent(appEvent, function(error, data, response) {
+            // ... handle or log response if needed ...
+        });
+    };
+});
+```
+
+### Quick Integration in the Browser
+You can also simply use us as a global exception handler like thus:
+
+```html
+<script src=“superagent.min.js“></script>
+<script src=“stacktrace.min.js”></script>
+<script src=“assets/js/trakerr.min.js”></script>
+<script>
+   function initTrakerr() {  var c = new TrakerrClient('<your api key>', '<version of your code>', '<deployment stage of codebase>'); c.handleExceptions(false); }
+   initTrakerr();
+</script>
+```
+
+This is a five minute modification that will catch all errors from onerror and send them to trakerr. While this code is useful, sending a custom event only takes a little more effort, with the examples below.
 
 ### Option-1: Handle exceptions with a global handler
 Calling handleExceptions will send any following error to Trakerr using the onerror handler. If you are calling this from the browser, the shouldDie flag is not relevent to you; and this will catch all unhandled thrown errors. If you are not calling the library from the browser, read about handleException's shouldDie flag.
@@ -111,73 +167,6 @@ try {
 
 We recommend with the above samples 2-4 you populate the EventUser and EventSession fields of app event with the pertinant data to help you identify issues. Option 1 sends no custom data at this time.
 
-### Full sample
-```javascript
-'use strict';
-
-// create a new client
-var TrakerrClient = require('trakerr-javascript');
-var client = new TrakerrClient('<your api key here>'); // replace value within quotes with your API key instead
-
-// Option-1: Add a global exception handler,
-//any error thrown with throw new Error('...'); will now be sent to Trakerr
-client.handleExceptions(false);
-
-// Option-2: Send event manually to Trakerr
-try {
-    // create a new event
-    var appEvent = client.createAppEvent();
-    
-    // ... populate any member data ...
-
-    // send it to Trakerr
-    client.sendEvent(appEvent, function(error, data, response) {
-        if(error) {
-            console.error('Error Response: ' + error + ', data = ' + data + ', response = ' +
-            JSON.stringify(response));
-        } else {
-            console.log('Response: data = ' + data + ', response = ' + JSON.stringify(response));
-        }
-    });
-} catch(err) {
-    console.err("Error: " + err);
-}
-```
-
-### For browser
-The library also works in the browser environment. Simply include the trakerr.min.js in the dist folder of our repo as a script, and you should be able to call TrackerrClient from the following scripts. The command to include TrakerrClient on your page would look like:
-
-```html
-<script src="trakerr.min.js"></script>
-```
-You should not need to utilize the npm based `require` in the previous examples. Otherwise, they should all work.
-
-### For angular
-Install an $exceptionHandler as shown below.
-
-```javascript
-var TrakerrClient = require('trakerr-javascript');
-
-mod.factory('$exceptionHandler', function ($log, config) {
-    //Replace value within quotes with your API key instead
-    var client = new TrakerrClient('<your api key here>');
-    
-    // create a new event
-    var appEvent = client.createAppEvent();
-    
-    appEvent.contextEnvName = config.envName;
-    
-    return function (exception, cause) {
-
-        $log.error(exception);
-
-        client.sendEvent(appEvent, function(error, data, response) {
-            // ... handle or log response if needed ...
-        });
-    };
-});
-```
-
 ## The TrakerrClient Constructor
 The `TrakerrClient`'s constructor initalizes the default values to all of TrakerrClient's properties.
 
@@ -206,6 +195,30 @@ Name | Type | Description | Notes
 **contextDataCenterRegion** | **string** | Data center region. | Defaults to `nil`
 
 
+## Building from Source
+If you want to build from source for the browser, use the following command:
+
+```bash
+npm install [--save] trakerr-io/trakerr-javascript
+```
+
+or
+
+```bash
+npm install [--save] trakerr-io/trakerr-javascript#<branch name>
+```
+
+you can then use grunt to compile your own minified version of the code. The grunt task we use can be executed with:
+
+```bash
+grunt build
+```
+in the folder with gruntFile.js. If you wish to modify or fork our code, simply running `grunt build` in the folder after acquire the code.
+
 ## Documentation for AppEvent
 
  - [TrakerrApi.AppEvent](https://github.com/trakerr-io/trakerr-javascript/blob/master/generated/docs/AppEvent.md)
+
+ ## API Version:
+- API version: 2.0.0
+- SDK version: 1.0.2
