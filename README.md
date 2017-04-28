@@ -3,8 +3,8 @@ Get your application events and errors to Trakerr via the *Trakerr API
 
 ## 3-minute Integration Guide
 
-### Browser: 3-minute guide
-You can also simply use us as a global exception handler like thus:
+### HTML/Javascript: 3-minute guide
+Include the following in your HTML
 
 ```html
 <script src=“https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js“></script>
@@ -13,9 +13,9 @@ You can also simply use us as a global exception handler like thus:
 <script>function initTrakerr() {  var c = new TrakerrClient('<your api key>', '<version of your code>', '<deployment stage of codebase>'); c.handleExceptions(false); } initTrakerr();</script>
 ```
 
-This is a three minute modification that will catch all errors from onerror and send them to trakerr. While this code is useful, sending a custom event only takes a little more effort, with the examples below.
+This will catch all errors using javascript's onerror and send them to trakerr. While this code is useful, we recommend using the Detailed Integration Guide below to send more useful information about errors.
 
-### Node: 3-minute guide
+### NodeJS: 3-minute guide
 
 If you use NPM, install as follows:
 ```bash
@@ -70,7 +70,7 @@ angular.module('your app').factory('$exceptionHandler', ['$window', function ($w
 ## Detailed Integration Guide
 This library works with both node apps and browser apps seamlessly. 
 
-## Frameworks Supported
+### Frameworks Supported
 - Javascript/JQuery
 - Nodejs
 - Angular
@@ -185,26 +185,6 @@ Name | Type | Description | Notes
 **contextDataCenterRegion** | **string** | Data center region. | Defaults to `nil`
 
 
-## Building from Source
-If you want to build from source for the browser, use the following command:
-
-```bash
-npm install [--save] trakerr-io/trakerr-javascript
-```
-
-or
-
-```bash
-npm install [--save] trakerr-io/trakerr-javascript#<branch name>
-```
-
-you can then use grunt to compile your own minified version of the code. The grunt task we use can be executed with:
-
-```bash
-grunt build
-```
-in the folder with gruntFile.js. If you wish to modify or fork our code, simply running `grunt build` in the folder after acquire the code.
-
 ## Documentation for AppEvent
 
  - [TrakerrApi.AppEvent](https://github.com/trakerr-io/trakerr-javascript/blob/master/generated/docs/AppEvent.md)
@@ -225,3 +205,24 @@ To install off a branch which may have experimental features, you can use:
 npm install --only=prod --save trakerr-io/trakerr-javascript#<branch name>
 ```
 without the angle brackets.
+
+## Building from Source
+If you want to build from source for the browser, use the following command:
+
+```bash
+npm install [--save] trakerr-io/trakerr-javascript
+```
+
+or
+
+```bash
+npm install [--save] trakerr-io/trakerr-javascript#<branch name>
+```
+
+you can then use grunt to compile your own minified version of the code. The grunt task we use can be executed with:
+
+```bash
+grunt build
+```
+in the folder with gruntFile.js. If you wish to modify or fork our code, simply running `grunt build` in the folder after acquire the code.
+
