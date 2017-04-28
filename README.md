@@ -1,20 +1,9 @@
 # Trakerr-Javascript API Client
 Get your application events and errors to Trakerr via the *Trakerr API
 
-## Frameworks Supported
-- jquery 
-- nodejs
-- browser
-- angular
+## 3-minute Integration Guide
 
-## Dependencies
-- [grunt.js](https://gruntjs.com/) (if you want to build from source)
-- [superagent.js](https://github.com/visionmedia/superagent)
-- [stacktrace.js](https://www.stacktracejs.com/)
-
-For installation on the browser, be sure to follow the instructions on including both of the above on their pages before adding ours as a script. Use the minified versions in the above order if you can.
-
-## Quick Integration in the Browser
+### Browser: 3-minute guide
 You can also simply use us as a global exception handler like thus:
 
 ```html
@@ -26,40 +15,69 @@ You can also simply use us as a global exception handler like thus:
 
 This is a three minute modification that will catch all errors from onerror and send them to trakerr. While this code is useful, sending a custom event only takes a little more effort, with the examples below.
 
+### Node: 3-minute guide
 
-### Installation via NPM
+If you use NPM, install as follows:
 ```bash
 npm install --only=prod --save trakerr-io/trakerr-javascript
 ```
 
-To install off a branch which may have experimental features, you can use:
-
-```bash
-npm install --only=prod --save trakerr-io/trakerr-javascript#<branch name>
-```
-without the angle brackets.
-
-### Installation using Bower
+If you use Bower, install as follows:
 ```bash
 bower install https://github.com/trakerr-io/trakerr-javascript
 ```
 
-### Installation on the Browser
-Your page loading the scripts should look something like:
+Install global handler
+```javascript
+var TrakerrClient = require('trakerr-javascript'); //This is only necessary for NPM use.
+var client = new TrakerrClient('<your api key here>', '<app version here>', '<deployment stage here>'); // replace value within quotes with your values instead
 
-```html
-<body>
-  <script src="superagent.min.js"></script>
-  <script src="stacktrace.min.js"></script>
-  <script src="trakerr.min.js"></script>
-  <script src="your_js_code.js"></script>
-</body>
+//any error thrown with throw new Error('...'); will now be sent to Trakerr
+client.handleExceptions(false);
 ```
 
-You can grab the minified version of our code in the dist folder of this repository. Be sure to include our dependancies above.
+### Angular: 3-minute guide
 
-## Getting Started
+Include the dependencies and initialize the global client variable with your API key:
+
+```html
+<script src=“https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js“></script>
+<script src=“https://cdnjs.cloudflare.com/ajax/libs/stacktrace.js/1.3.1/stacktrace.min.js”></script>
+<script src=“trakerr.min.js”></script>
+<!-- initialize the client globally -->
+<script> trakerr = new TrakerrClient('<your api key>', '<version of your code>', '<deployment stage of codebase>'); </script>
+```
+
+And in the angular module, install an $exceptionHandler as shown below:
+
+```javascript
+angular.module('your app').factory('$exceptionHandler', ['$window', function ($window) {
+    //Replace value within quotes with your API key instead
+
+    // create a new event
+    var appEvent = $window.trakerr.createAppEvent();
+
+    return function (exception, cause) {
+        // ...
+
+        $window.trakerr.sendError(exception, "Error", function(error, data, response) {
+            // ... handle or log response if needed ...
+        });
+    };
+}]);
+```
+
+## Detailed Integration Guide
 This library works with both node apps and browser apps seamlessly. 
+
+## Frameworks Supported
+- Javascript/JQuery
+- Nodejs
+- Angular
+
+### Dependencies
+- [superagent.js](https://github.com/visionmedia/superagent)
+- [stacktrace.js](https://www.stacktracejs.com/)
 
 For node apps just installing the above dependencies and bootstrapping the code similar to the below is sufficient. See the instructions below for the browser.
 
@@ -71,31 +89,6 @@ var TrakerrClient = require('trakerr-javascript'); //This is only necessary for 
 var client = new TrakerrClient('<your api key here>', '<app version here>', '<deployment stage here>'); // replace value within quotes with your values instead
 ```
 
-### Quick Integration with Angular
-Install an $exceptionHandler as shown below:
-
-```javascript
-var TrakerrClient = require('trakerr-javascript');
-
-mod.factory('$exceptionHandler', function ($log, config) {
-    //Replace value within quotes with your API key instead
-    var client = new TrakerrClient('<your api key here>');
-    
-    // create a new event
-    var appEvent = client.createAppEvent();
-    
-    appEvent.contextEnvName = config.envName;
-    
-    return function (exception, cause) {
-
-        $log.error(exception);
-
-        client.sendEvent(appEvent, function(error, data, response) {
-            // ... handle or log response if needed ...
-        });
-    };
-});
-```
 ### Option-1: Handle exceptions with a global handler
 Calling handleExceptions will send any following error to Trakerr using the onerror handler. If you are calling this from the browser, the shouldDie flag is not relevent to you; and this will catch all unhandled thrown errors. If you are not calling the library from the browser, read about handleException's shouldDie flag.
 
@@ -219,3 +212,16 @@ in the folder with gruntFile.js. If you wish to modify or fork our code, simply 
  ## API Version:
 - API version: 2.0.0
 - SDK version: 1.0.2
+
+# Developer guide
+
+## Developer dependencies
+- [grunt.js](https://gruntjs.com/) (if you want to build from source)
+
+## Installation via NPM
+To install off a branch which may have experimental features, you can use:
+
+```bash
+npm install --only=prod --save trakerr-io/trakerr-javascript#<branch name>
+```
+without the angle brackets.
