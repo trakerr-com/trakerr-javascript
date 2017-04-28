@@ -14,6 +14,22 @@ Get your application events and errors to Trakerr via the *Trakerr API
 
 For installation on the browser, be sure to follow the instructions on including both of the above on their pages before adding ours as a script. Use the minified versions in the above order if you can.
 
+### Quick Integration in the Browser
+You can also simply use us as a global exception handler like thus:
+
+```html
+<script src=“https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js“></script>
+<script src=“https://cdnjs.cloudflare.com/ajax/libs/stacktrace.js/1.3.1/stacktrace.min.js”></script>
+<script src=“trakerr.min.js”></script>
+<script>
+   function initTrakerr() {  var c = new TrakerrClient('<your api key>', '<version of your code>', '<deployment stage of codebase>'); c.handleExceptions(false); }
+   initTrakerr();
+</script>
+```
+
+This is a five minute modification that will catch all errors from onerror and send them to trakerr. While this code is useful, sending a custom event only takes a little more effort, with the examples below.
+
+
 ### Installation via NPM
 ```bash
 npm install --only=prod --save trakerr-io/trakerr-javascript
@@ -83,22 +99,6 @@ mod.factory('$exceptionHandler', function ($log, config) {
     };
 });
 ```
-
-### Quick Integration in the Browser
-You can also simply use us as a global exception handler like thus:
-
-```html
-<script src=“superagent.min.js“></script>
-<script src=“stacktrace.min.js”></script>
-<script src=“assets/js/trakerr.min.js”></script>
-<script>
-   function initTrakerr() {  var c = new TrakerrClient('<your api key>', '<version of your code>', '<deployment stage of codebase>'); c.handleExceptions(false); }
-   initTrakerr();
-</script>
-```
-
-This is a five minute modification that will catch all errors from onerror and send them to trakerr. While this code is useful, sending a custom event only takes a little more effort, with the examples below.
-
 ### Option-1: Handle exceptions with a global handler
 Calling handleExceptions will send any following error to Trakerr using the onerror handler. If you are calling this from the browser, the shouldDie flag is not relevent to you; and this will catch all unhandled thrown errors. If you are not calling the library from the browser, read about handleException's shouldDie flag.
 
