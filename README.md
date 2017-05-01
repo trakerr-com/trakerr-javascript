@@ -1,4 +1,4 @@
-# Trakerr-Javascript API Client
+# Trakerr - Javascript API Client
 Get your application events and errors to Trakerr via the *Trakerr API
 
 ## 3-minute Integration Guide
