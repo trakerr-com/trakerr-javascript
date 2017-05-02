@@ -1,8 +1,12 @@
 # Trakerr - Javascript API Client
 Get your application events and errors to Trakerr via the *Trakerr API
 
-## 3-minute Integration Guide
+## Requirements
+Node or Javascript supported Browser.
+[superagent.js](https://github.com/visionmedia/superagent)
+[stacktrace.js](https://www.stacktracejs.com/)
 
+## 3-minute Integration Guide
 ### HTML/Javascript: 3-minute guide
 Include the following in your HTML
 
@@ -16,7 +20,6 @@ Include the following in your HTML
 This will catch all errors using javascript's onerror and send them to trakerr. While this code is useful, we recommend using the Detailed Integration Guide below to send more useful information about errors.
 
 ### NodeJS: 3-minute guide
-
 If you use NPM, install as follows:
 ```bash
 npm install --only=prod --save trakerr-io/trakerr-javascript
@@ -69,15 +72,6 @@ angular.module('your app').factory('$exceptionHandler', ['$window', function ($w
 
 ## Detailed Integration Guide
 This library works with both node apps and browser apps seamlessly. 
-
-### Frameworks Supported
-- Javascript/JQuery
-- Nodejs
-- Angular
-
-### Dependencies
-- [superagent.js](https://github.com/visionmedia/superagent)
-- [stacktrace.js](https://www.stacktracejs.com/)
 
 For node apps just installing the above dependencies and bootstrapping the code similar to the below is sufficient. See the instructions below for the browser.
 
@@ -186,14 +180,7 @@ Name | Type | Description | Notes
 
 
 ## Documentation for AppEvent
-
  - [TrakerrApi.AppEvent](https://github.com/trakerr-io/trakerr-javascript/blob/master/generated/docs/AppEvent.md)
-
- ## API Version:
-- API version: 2.0.0
-- SDK version: 1.0.2
-
-# Developer guide
 
 ## Developer dependencies
 - [grunt.js](https://gruntjs.com/) (if you want to build from source)
