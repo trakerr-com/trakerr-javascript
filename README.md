@@ -14,7 +14,7 @@ Include the following in your HTML
 <script src=“https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js“></script>
 <script src=“https://cdnjs.cloudflare.com/ajax/libs/stacktrace.js/1.3.1/stacktrace.min.js”></script>
 <script src=“trakerr.min.js”></script>
-<script>function initTrakerr() {  var c = new TrakerrClient('<your api key>', '<version of your code>', '<deployment stage of codebase>'); c.handleExceptions(false); } initTrakerr();</script>
+<script>function initTrakerr() {  var c = new TrakerrClient('<api-key>', '<version of your code>', '<deployment stage of codebase>'); c.handleExceptions(false); } initTrakerr();</script>
 ```
 
 This will catch all errors using javascript's onerror and send them to trakerr. While this code is useful, we recommend using the Detailed Integration Guide below to send more useful information about errors.
@@ -33,7 +33,7 @@ bower install https://github.com/trakerr-io/trakerr-javascript
 Install global handler
 ```javascript
 var TrakerrClient = require('trakerr-javascript'); //This is only necessary for NPM use.
-var client = new TrakerrClient('<your api key here>', '<app version here>', '<deployment stage here>'); // replace value within quotes with your values instead
+var client = new TrakerrClient('<api-key>', '<app version here>', '<deployment stage here>'); // replace value within quotes with your values instead
 
 //any error thrown with throw new Error('...'); will now be sent to Trakerr
 client.handleExceptions(false);
@@ -48,7 +48,7 @@ Include the dependencies and initialize the global client variable with your API
 <script src=“https://cdnjs.cloudflare.com/ajax/libs/stacktrace.js/1.3.1/stacktrace.min.js”></script>
 <script src=“trakerr.min.js”></script>
 <!-- initialize the client globally -->
-<script> trakerr = new TrakerrClient('<your api key>', '<version of your code>', '<deployment stage of codebase>'); </script>
+<script> trakerr = new TrakerrClient('<api-key>', '<version of your code>', '<deployment stage of codebase>'); </script>
 ```
 
 And in the angular module, install an $exceptionHandler as shown below:
@@ -80,7 +80,7 @@ In your script, the first thing before sending an event is to create a client. F
 
 ```javascript
 var TrakerrClient = require('trakerr-javascript'); //This is only necessary for NPM use.
-var client = new TrakerrClient('<your api key here>', '<app version here>', '<deployment stage here>'); // replace value within quotes with your values instead
+var client = new TrakerrClient('<api-key>', '<app version here>', '<deployment stage here>'); // replace value within quotes with your values instead
 ```
 
 ### Option-1: Handle exceptions with a global handler
