@@ -57,11 +57,11 @@
    * @param eventType {String} type of the event or error (eg. NullPointerException)
    * @param eventMessage {String} message containing details of the event or error
    */
-  var exports = function(apiKey, classification, eventType, eventMessage) {
+  var exports = function(apiKey, logLevel, classification, eventType, eventMessage) {
     var _this = this;
 
     _this['apiKey'] = apiKey;
-
+    _this['logLevel'] = logLevel;
     _this['classification'] = classification;
     _this['eventType'] = eventType;
     _this['eventMessage'] = eventMessage;
