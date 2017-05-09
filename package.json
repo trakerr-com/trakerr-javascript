@@ -1,7 +1,7 @@
 {
   "name": "trakerr-javascript",
   "version": "1.1.0",
-  "description": "Trakerr Javascript Client",
+  "description": "Trakerr Javascript Client. Get your event to Trakerr Quickly!",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
