@@ -66,31 +66,6 @@
     _this['eventType'] = eventType;
     _this['eventMessage'] = eventMessage;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   };
 
   /**
