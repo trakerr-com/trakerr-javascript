@@ -11,9 +11,9 @@ Node or Javascript supported Browser.
 Include the following in your HTML
 
 ```html
-<script src=“https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js“></script>
-<script src=“https://cdnjs.cloudflare.com/ajax/libs/stacktrace.js/1.3.1/stacktrace.min.js”></script>
-<script src=“https://cdn.jsdelivr.net/trakerr/1.0.2/trakerr.min.js”></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stacktrace.js/1.3.1/stacktrace.min.js"></script>
+<script src="https://cdn.jsdelivr.net/trakerr/1.0.2/trakerr.min.js"></script>
 <script>function initTrakerr() {  var c = new TrakerrClient('<api-key>', '<version of your code>', '<deployment stage of codebase>'); c.handleExceptions(false); } initTrakerr();</script>
 ```
 
@@ -44,9 +44,9 @@ client.handleExceptions(false);
 Include the dependencies and initialize the global client variable with your API key:
 
 ```html
-<script src=“https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js“></script>
-<script src=“https://cdnjs.cloudflare.com/ajax/libs/stacktrace.js/1.3.1/stacktrace.min.js”></script>
-<script src=“trakerr.min.js”></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stacktrace.js/1.3.1/stacktrace.min.js"></script>
+<script src="trakerr.min.js"></script>
 <!-- initialize the client globally -->
 <script> trakerr = new TrakerrClient('<api-key>', '<version of your code>', '<deployment stage of codebase>'); </script>
 ```
