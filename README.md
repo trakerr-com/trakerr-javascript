@@ -35,9 +35,9 @@ bower install https://github.com/trakerr-io/trakerr-javascript
 Install global handler
 ```javascript
 var TrakerrClient = require('trakerr-javascript'); //This is only necessary for NPM use.
-var client = new TrakerrClient('<api-key>',                //Your API key
-                               '<app version here>',       //Your app version
-                               '<deployment stage here>'); //Custom deployment stage of your code.
+var client = new TrakerrClient('<api-key>',   //Your API key
+                               '1.0',         //Your app version
+                               'production'); //Custom deployment stage of your code.
 
 //any error thrown with throw new Error('...'); will now be sent to Trakerr
 client.handleExceptions(false);
@@ -52,9 +52,9 @@ Include the dependencies and initialize the global client variable with your API
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stacktrace.js/1.3.1/stacktrace.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/trakerr-com/trakerr-javascript@1.1.0/dist/trakerr.min.js"></script>
 <!-- initialize the client globally -->
-<script> trakerr = new TrakerrClient('<api-key>', '<api-key>',   //Your API key
-                                     '<app version here>',       //Your app version
-                                     '<deployment stage here>'); //Custom deployment stage of your code.
+<script> trakerr = new TrakerrClient('<api-key>',   //Your API key
+                                     '1.0',         //Your app version
+                                     'production'); //Custom deployment stage of your code.
 </script>
 ```
 
