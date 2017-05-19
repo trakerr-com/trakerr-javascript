@@ -314,6 +314,9 @@
                     appEvent.contextMemoryPercentage = ((_this.opsys.totalmem() - _this.opsys.freemem())/_this.opsys.totalmem()) * 100
                 }
             }
+            else{
+                appEvent.contextURL = window.location.href;
+            }
 
              if (typeof appEvent.contextTags === 'undefined') appEvent.contextTags = _this.contextTags;
              if (typeof appEvent.contextAppSKU === 'undefined') appEvent.contextAppSKU = _this.contextAppSKU;
