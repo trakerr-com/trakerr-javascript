@@ -115,7 +115,7 @@ This will allow you to catch and send a specific error to trakerr, also allowing
 ```
 
 ### Option-3: Send error to Trakerr programmatically and populate some custom properties on the event
-Passing a function to sendError will allow you to quickly populate the properties of the created AppEvent. For AppEvent's properties, see it's docs in the generated folder. The function must take in a parameter.
+Passing a function to sendError will allow you to quickly populate the properties of the created AppEvent. For [AppEvent's properties](generated/docs/AppEvent.md), see it's docs in the generated folder. The function must take in a parameter.
 
 ```javascript
     try {
@@ -127,7 +127,7 @@ Passing a function to sendError will allow you to quickly populate the propertie
             // set some custom properties on the event
             event.contextOperationTimeMillis = 1000
             event.eventUser = "jake@trakerr.io"
-            event.session = "20"
+            event.eventSession = "20"
             event.contextDevice = "pc"
             event.contextAppSku = "mobile"
             event.contextTags = ["client, frontend"]
