@@ -130,7 +130,7 @@ Passing a function to sendError will allow you to quickly populate the propertie
             event.eventSession = "20"
             event.contextDevice = "pc"
             event.contextAppSku = "mobile"
-            event.contextTags = ["client, frontend"]
+            event.contextTags = ["client", "frontend"]
 
             event.customProperties = {
                 customString: {
