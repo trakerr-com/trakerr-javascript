@@ -171,6 +171,8 @@ var exports = function TrakerrClient(apiKey,
 
 The TrakerrClient module has a lot of exposed properties. The benefit to setting these immediately after after you create the TrakerrClient is that AppEvent will default it's values against the TrakerClient that created it. This way if there is a value that all your AppEvents uses, and the constructor default value currently doesn't suit you; it may be easier to change it in TrakerrClient as it will become the default value for all AppEvents created after. A lot of these are populated by default value by the constructor, but you can populate them with whatever string data you want. The following table provides an in depth look at each of those.
 
+If you're populating an app event directly, you'll want to take a look at the [AppEvent properties](generated/docs/AppEvent.md) as they contain properties unique to each AppEvent which do not have defaults you may set in the client.
+
 Name | Type | Description | Notes
 ------------ | ------------- | -------------  | -------------
 **apiKey** | **string** | API key generated for the application | 
@@ -184,8 +186,10 @@ Name | Type | Description | Notes
 **contextAppOSVersion** | **string** | OS Version the application is running on. | Default value: OS Version.
 **contextAppOSBrowser** | **string** | An optional string browser name the application is running on. | Defaults to the browser name if the app is running from a browser.
 **contextAppOSBrowserVersion** | **string** | An optional string browser version the application is running on. | Defaults to the browser version if the app is running from a browser.
-**contextDataCenter** | **string** | Data center the application is running on or connected to. | Defaults to `nil`
-**contextDataCenterRegion** | **string** | Data center region. | Defaults to `nil`
+**contextDataCenter** | **string** | Data center the application is running on or connected to. | Defaults to `'undefined'`
+**contextDataCenterRegion** | **string** | Data center region. | Defaults to `'undefined'`
+**contextTags** | **Array.<String>** | Array of string tags you can use to tag your components for searching., | Defaults to `'undefined'`
+**contextAppSKU** | **string** | Application SKU. | Defaults to `'undefined'`
 
 
 ## Documentation for AppEvent
