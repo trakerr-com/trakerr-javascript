@@ -1,12 +1,12 @@
 # Trakerr - Javascript API Client
 Get your application events and errors to Trakerr via the *Trakerr API
 
-## Requirements
-Node or Javascript supported Browser.
-[superagent.js](https://github.com/visionmedia/superagent)
-[stacktrace.js](https://www.stacktracejs.com/)
-
 ## 3-minute Integration Guide
+### Requirements
+Node or Javascript supported Browser.
+- [superagent.js](https://github.com/visionmedia/superagent)
+- [stacktrace.js](https://www.stacktracejs.com/)
+
 ### HTML/Javascript: 3-minute guide
 Include the following in your HTML
 
