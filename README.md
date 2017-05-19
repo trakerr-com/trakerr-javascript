@@ -33,7 +33,9 @@ bower install https://github.com/trakerr-io/trakerr-javascript
 Install global handler
 ```javascript
 var TrakerrClient = require('trakerr-javascript'); //This is only necessary for NPM use.
-var client = new TrakerrClient('<api-key>', '<app version here>', '<deployment stage here>'); // replace value within quotes with your values instead
+var client = new TrakerrClient('<api-key>',                //Your API key
+                               '<app version here>',       //Your app version
+                               '<deployment stage here>'); //Custom deployment stage of your code.
 
 //any error thrown with throw new Error('...'); will now be sent to Trakerr
 client.handleExceptions(false);
@@ -46,7 +48,7 @@ Include the dependencies and initialize the global client variable with your API
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stacktrace.js/1.3.1/stacktrace.min.js"></script>
-<script src="trakerr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/trakerr-com/trakerr-javascript@1.1.0/dist/trakerr.min.js"></script>
 <!-- initialize the client globally -->
 <script> trakerr = new TrakerrClient('<api-key>', '<version of your code>', '<deployment stage of codebase>'); </script>
 ```
@@ -65,6 +67,8 @@ angular.module('your app').factory('$exceptionHandler', ['$window', function ($w
 
         $window.trakerr.sendError(exception, "Error", function(error, data, response) {
             // ... handle or log response if needed ...
+
+            $log.error(exception, cause);//Relogs the error on the console
         });
     };
 }]);
@@ -73,14 +77,14 @@ angular.module('your app').factory('$exceptionHandler', ['$window', function ($w
 ## Detailed Integration Guide
 This library works with both node apps and browser apps seamlessly. 
 
-For node apps just installing the above dependencies and bootstrapping the code similar to the below is sufficient. See the instructions below for the browser.
-
 ### Create a client
 In your script, the first thing before sending an event is to create a client. For npm apps, you may use require, but other options are also listed below.
 
 ```javascript
 var TrakerrClient = require('trakerr-javascript'); //This is only necessary for NPM use.
-var client = new TrakerrClient('<api-key>', '<app version here>', '<deployment stage here>'); // replace value within quotes with your values instead
+var client = new TrakerrClient('<api-key>',                //Your API key
+                               '<app version here>',       //Your app version
+                               '<deployment stage here>'); //Custom deployment stage of your code.
 ```
 
 ### Option-1: Handle exceptions with a global handler
@@ -211,5 +215,5 @@ you can then use grunt to compile your own minified version of the code. The gru
 ```bash
 grunt build
 ```
-in the folder with gruntFile.js. If you wish to modify or fork our code, simply running `grunt build` in the folder after acquire the code.
+in the folder with gruntFile.js. If you wish to modify or fork our code, simply run `grunt build` after modifying the code to try it out in your browser locally.
 
