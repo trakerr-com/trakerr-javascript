@@ -260,7 +260,7 @@
                     _this.firstCpuTimes = getCPUS(os);
                 }
             } catch (err) {
-
+                //ignored
             }
         }
 
@@ -307,11 +307,11 @@
 
             if (typeof _this.opsys !== 'undefined') {
                 if (typeof appEvent.contextCpuPercentage === 'undefined') {
-                    appEvent.contextCpuPercentage = totalCPU();
+                    appEvent.contextCpuPercentage = Math.round(totalCPU());
                 }
 
                 if(typeof appEvent.contextMemoryPercentage === 'undefined'){
-                    appEvent.contextMemoryPercentage = ((_this.opsys.totalmem() - _this.opsys.freemem())/_this.opsys.totalmem()) * 100
+                    appEvent.contextMemoryPercentage = Math.round(((_this.opsys.totalmem() - _this.opsys.freemem())/_this.opsys.totalmem()) * 100);
                 }
             }
             else{
