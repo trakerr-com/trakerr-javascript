@@ -14,10 +14,12 @@ Include the following in your HTML
 <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stacktrace.js/1.3.1/stacktrace.min.js"></script>
 <script src="https://cdn.jsdelivr.net/trakerr/1.0.2/trakerr.min.js"></script>
-<script>function initTrakerr() {  var c = new TrakerrClient('<api-key>', '<version of your code>', '<deployment stage of codebase>'); c.handleExceptions(false); } initTrakerr();</script>
+<script>function initTrakerr() {  var c = new TrakerrClient('<api-key>', '1.0', 'production'); c.handleExceptions(false); } initTrakerr();</script>
 ```
 
-This will catch all errors using javascript's onerror and send them to trakerr. While this code is useful, we recommend using the Detailed Integration Guide below to send more useful information about errors.
+You can replace `1.0` and `production` with the values of app version and deployment stage of your codebase.
+
+This will catch all errors using javascript's onerror and send them to trakerr. While this code is fast and clean, we recommend using the Detailed Integration Guide below to send more useful information about errors.
 
 ### NodeJS: 3-minute guide
 If you use NPM, install as follows:
@@ -50,7 +52,10 @@ Include the dependencies and initialize the global client variable with your API
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stacktrace.js/1.3.1/stacktrace.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/trakerr-com/trakerr-javascript@1.1.0/dist/trakerr.min.js"></script>
 <!-- initialize the client globally -->
-<script> trakerr = new TrakerrClient('<api-key>', '<version of your code>', '<deployment stage of codebase>'); </script>
+<script> trakerr = new TrakerrClient('<api-key>', '<api-key>',   //Your API key
+                                     '<app version here>',       //Your app version
+                                     '<deployment stage here>'); //Custom deployment stage of your code.
+</script>
 ```
 
 And in the angular module, install an $exceptionHandler as shown below:
