@@ -24,7 +24,7 @@ This will catch all errors using javascript's onerror and send them to trakerr. 
 ### NodeJS: 3-minute guide
 If you use NPM, install as follows:
 ```bash
-npm install --only=prod --save trakerr-io/trakerr-javascript
+npm install --only=prod --save trakerr-com/trakerr-javascript
 ```
 
 If you use Bower, install as follows:
@@ -200,7 +200,7 @@ Name | Type | Description | Notes
 
 
 ## Documentation for AppEvent
- - [TrakerrApi.AppEvent](https://github.com/trakerr-io/trakerr-javascript/blob/master/generated/docs/AppEvent.md)
+ - [TrakerrApi.AppEvent](https://github.com/trakerr-com/trakerr-javascript/blob/master/generated/docs/AppEvent.md)
 
 ## Developer dependencies
 - [grunt.js](https://gruntjs.com/) (if you want to build from source)
@@ -209,7 +209,7 @@ Name | Type | Description | Notes
 To install off a branch which may have experimental features, you can use:
 
 ```bash
-npm install --only=prod --save trakerr-io/trakerr-javascript#<branch name>
+npm install --only=prod --save trakerr-com/trakerr-javascript#<branch name>
 ```
 without the angle brackets.
 
@@ -217,13 +217,13 @@ without the angle brackets.
 If you want to build from source for the browser, use the following command:
 
 ```bash
-npm install [--save] trakerr-io/trakerr-javascript
+npm install [--save] trakerr-com/trakerr-javascript
 ```
 
 or
 
 ```bash
-npm install [--save] trakerr-io/trakerr-javascript#<branch name>
+npm install [--save] trakerr-com/trakerr-javascript#<branch name>
 ```
 
 you can then use grunt to compile your own minified version of the code. The grunt task we use can be executed with:
