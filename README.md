@@ -125,6 +125,13 @@ Passing a function to sendError will allow you to quickly populate the propertie
         client.sendError(err, "Error", function(event) {
 
             // set some custom properties on the event
+            event.contextOperationTimeMillis = 1000
+            event.eventUser = "jake@trakerr.io"
+            event.session = "20"
+            event.contextDevice = "pc"
+            event.contextAppSku = "mobile"
+            event.contextTags = ["client, frontend"]
+
             event.customProperties = {
                 customString: {
                     customData1: "Some data"
