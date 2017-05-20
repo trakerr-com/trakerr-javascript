@@ -333,7 +333,7 @@
          * @return New AppEvent instance.
          */
         function fillStacktrace(error, logLevel, classification, stackFrames) {
-            var type = (typeof error === 'object') ? "foo" : (typeof error).toString();
+            var type = (typeof error === 'object') ? error.constructor.name : (typeof error).toString();
 
             var newEvent = _this.createAppEvent(logLevel ? logLevel : "Error", classification ? classification : "issue", type, error.toString());
             newEvent.eventStacktrace = new TrakerrApi.Stacktrace();
