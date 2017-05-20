@@ -403,8 +403,8 @@
                 var cpu = cpus[i];
 
                 //Total up the time in the cores tick
-                for (type in cpu.times) {
-                    totalTick += cpu.times[type];
+                for (stats in cpu.times) {
+                    totalTick += cpu.times[stats];
                 }
 
                 //Total up the idle time of the core
