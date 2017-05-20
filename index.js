@@ -333,8 +333,7 @@
          * @return New AppEvent instance.
          */
         function fillStacktrace(error, logLevel, classification, stackFrames) {
-            var type = (typeof error === 'object') ? 'error.constructor.name' : (typeof error).toString();
-            console.log("test:" +  type)
+            var type = (typeof error === 'object') ? error.constructor.name : (typeof error).toString();
 
             var newEvent = _this.createAppEvent(logLevel ? logLevel : "Error", classification ? classification : "issue", type, error.toString());
             newEvent.eventStacktrace = new TrakerrApi.Stacktrace();
@@ -404,7 +403,7 @@
                 var cpu = cpus[i];
 
                 //Total up the time in the cores tick
-                for (stats in cpu.times) {
+                for (var stats in cpu.times) {
                     totalTick += cpu.times[stats];
                 }
 
