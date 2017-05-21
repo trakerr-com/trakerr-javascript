@@ -13,7 +13,7 @@ Include the following in your HTML
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stacktrace.js/1.3.1/stacktrace.min.js"></script>
-<script src="https://cdn.jsdelivr.net/trakerr/1.0.2/trakerr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/trakerr-com/trakerr-javascript@1.1.0/dist/trakerr.min.js"></script>
 <script>function initTrakerr() {  var c = new TrakerrClient('<api-key>', '1.0', 'production'); c.handleExceptions(false); } initTrakerr();</script>
 ```
 
