@@ -1,12 +1,12 @@
 # Trakerr - Javascript API Client
 Get your application events and errors to Trakerr via the *Trakerr API
 
-## Requirements
-Node or Javascript supported Browser.
-[superagent.js](https://github.com/visionmedia/superagent)
-[stacktrace.js](https://www.stacktracejs.com/)
-
 ## 3-minute Integration Guide
+### Requirements
+Node or Javascript supported Browser.
+- [superagent.js](https://github.com/visionmedia/superagent)
+- [stacktrace.js](https://www.stacktracejs.com/)
+
 ### HTML/Javascript: 3-minute guide
 Include the following in your HTML
 
@@ -14,15 +14,17 @@ Include the following in your HTML
 <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stacktrace.js/1.3.1/stacktrace.min.js"></script>
 <script src="https://cdn.jsdelivr.net/trakerr/1.0.2/trakerr.min.js"></script>
-<script>function initTrakerr() {  var c = new TrakerrClient('<api-key>', '<version of your code>', '<deployment stage of codebase>'); c.handleExceptions(false); } initTrakerr();</script>
+<script>function initTrakerr() {  var c = new TrakerrClient('<api-key>', '1.0', 'production'); c.handleExceptions(false); } initTrakerr();</script>
 ```
 
-This will catch all errors using javascript's onerror and send them to trakerr. While this code is useful, we recommend using the Detailed Integration Guide below to send more useful information about errors.
+You can replace `1.0` and `production` with the values of app version and deployment stage of your codebase.
+
+This will catch all errors using javascript's onerror and send them to trakerr. While this code is fast and clean, we recommend using the Detailed Integration Guide below to send more useful information about errors.
 
 ### NodeJS: 3-minute guide
 If you use NPM, install as follows:
 ```bash
-npm install --only=prod --save trakerr-io/trakerr-javascript
+npm install --only=prod --save trakerr-com/trakerr-javascript
 ```
 
 If you use Bower, install as follows:
@@ -33,7 +35,9 @@ bower install https://github.com/trakerr-io/trakerr-javascript
 Install global handler
 ```javascript
 var TrakerrClient = require('trakerr-javascript'); //This is only necessary for NPM use.
-var client = new TrakerrClient('<api-key>', '<app version here>', '<deployment stage here>'); // replace value within quotes with your values instead
+var client = new TrakerrClient('<api-key>',   //Your API key
+                               '1.0',         //Your app version
+                               'production'); //Custom deployment stage of your code.
 
 //any error thrown with throw new Error('...'); will now be sent to Trakerr
 client.handleExceptions(false);
@@ -46,9 +50,12 @@ Include the dependencies and initialize the global client variable with your API
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stacktrace.js/1.3.1/stacktrace.min.js"></script>
-<script src="trakerr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/trakerr-com/trakerr-javascript@1.1.0/dist/trakerr.min.js"></script>
 <!-- initialize the client globally -->
-<script> trakerr = new TrakerrClient('<api-key>', '<version of your code>', '<deployment stage of codebase>'); </script>
+<script> trakerr = new TrakerrClient('<api-key>',   //Your API key
+                                     '1.0',         //Your app version
+                                     'production'); //Custom deployment stage of your code.
+</script>
 ```
 
 And in the angular module, install an $exceptionHandler as shown below:
@@ -65,6 +72,8 @@ angular.module('your app').factory('$exceptionHandler', ['$window', function ($w
 
         $window.trakerr.sendError(exception, "Error", function(error, data, response) {
             // ... handle or log response if needed ...
+
+            $log.error(exception, cause);//Relogs the error on the console
         });
     };
 }]);
@@ -73,14 +82,14 @@ angular.module('your app').factory('$exceptionHandler', ['$window', function ($w
 ## Detailed Integration Guide
 This library works with both node apps and browser apps seamlessly. 
 
-For node apps just installing the above dependencies and bootstrapping the code similar to the below is sufficient. See the instructions below for the browser.
-
 ### Create a client
 In your script, the first thing before sending an event is to create a client. For npm apps, you may use require, but other options are also listed below.
 
 ```javascript
 var TrakerrClient = require('trakerr-javascript'); //This is only necessary for NPM use.
-var client = new TrakerrClient('<api-key>', '<app version here>', '<deployment stage here>'); // replace value within quotes with your values instead
+var client = new TrakerrClient('<api-key>',                //Your API key
+                               '<app version here>',       //Your app version
+                               '<deployment stage here>'); //Custom deployment stage of your code.
 ```
 
 ### Option-1: Handle exceptions with a global handler
@@ -106,7 +115,7 @@ This will allow you to catch and send a specific error to trakerr, also allowing
 ```
 
 ### Option-3: Send error to Trakerr programmatically and populate some custom properties on the event
-Passing a function to sendError will allow you to quickly populate the properties of the created AppEvent. For AppEvent's properties, see it's docs in the generated folder. The function must take in a parameter.
+Passing a function to sendError will allow you to quickly populate the properties of the created AppEvent. For [AppEvent's properties](generated/docs/AppEvent.md), see it's docs in the generated folder. The function must take in a parameter.
 
 ```javascript
     try {
@@ -116,6 +125,13 @@ Passing a function to sendError will allow you to quickly populate the propertie
         client.sendError(err, "Error", function(event) {
 
             // set some custom properties on the event
+            event.contextOperationTimeMillis = 1000
+            event.eventUser = "jake@trakerr.io"
+            event.eventSession = "20"
+            event.contextDevice = "pc"
+            event.contextAppSku = "mobile"
+            event.contextTags = ["client", "frontend"]
+
             event.customProperties = {
                 customString: {
                     customData1: "Some data"
@@ -162,6 +178,8 @@ var exports = function TrakerrClient(apiKey,
 
 The TrakerrClient module has a lot of exposed properties. The benefit to setting these immediately after after you create the TrakerrClient is that AppEvent will default it's values against the TrakerClient that created it. This way if there is a value that all your AppEvents uses, and the constructor default value currently doesn't suit you; it may be easier to change it in TrakerrClient as it will become the default value for all AppEvents created after. A lot of these are populated by default value by the constructor, but you can populate them with whatever string data you want. The following table provides an in depth look at each of those.
 
+If you're populating an app event directly, you'll want to take a look at the [AppEvent properties](generated/docs/AppEvent.md) as they contain properties unique to each AppEvent which do not have defaults you may set in the client.
+
 Name | Type | Description | Notes
 ------------ | ------------- | -------------  | -------------
 **apiKey** | **string** | API key generated for the application | 
@@ -175,12 +193,14 @@ Name | Type | Description | Notes
 **contextAppOSVersion** | **string** | OS Version the application is running on. | Default value: OS Version.
 **contextAppOSBrowser** | **string** | An optional string browser name the application is running on. | Defaults to the browser name if the app is running from a browser.
 **contextAppOSBrowserVersion** | **string** | An optional string browser version the application is running on. | Defaults to the browser version if the app is running from a browser.
-**contextDataCenter** | **string** | Data center the application is running on or connected to. | Defaults to `nil`
-**contextDataCenterRegion** | **string** | Data center region. | Defaults to `nil`
+**contextDataCenter** | **string** | Data center the application is running on or connected to. | Defaults to `'undefined'`
+**contextDataCenterRegion** | **string** | Data center region. | Defaults to `'undefined'`
+**contextTags** | **Array.<String>** | Array of string tags you can use to tag your components for searching., | Defaults to `'undefined'`
+**contextAppSKU** | **string** | Application SKU. | Defaults to `'undefined'`
 
 
 ## Documentation for AppEvent
- - [TrakerrApi.AppEvent](https://github.com/trakerr-io/trakerr-javascript/blob/master/generated/docs/AppEvent.md)
+ - [TrakerrApi.AppEvent](https://github.com/trakerr-com/trakerr-javascript/blob/master/generated/docs/AppEvent.md)
 
 ## Developer dependencies
 - [grunt.js](https://gruntjs.com/) (if you want to build from source)
@@ -189,7 +209,7 @@ Name | Type | Description | Notes
 To install off a branch which may have experimental features, you can use:
 
 ```bash
-npm install --only=prod --save trakerr-io/trakerr-javascript#<branch name>
+npm install --only=prod --save trakerr-com/trakerr-javascript#<branch name>
 ```
 without the angle brackets.
 
@@ -197,13 +217,13 @@ without the angle brackets.
 If you want to build from source for the browser, use the following command:
 
 ```bash
-npm install [--save] trakerr-io/trakerr-javascript
+npm install [--save] trakerr-com/trakerr-javascript
 ```
 
 or
 
 ```bash
-npm install [--save] trakerr-io/trakerr-javascript#<branch name>
+npm install [--save] trakerr-com/trakerr-javascript#<branch name>
 ```
 
 you can then use grunt to compile your own minified version of the code. The grunt task we use can be executed with:
@@ -211,5 +231,5 @@ you can then use grunt to compile your own minified version of the code. The gru
 ```bash
 grunt build
 ```
-in the folder with gruntFile.js. If you wish to modify or fork our code, simply running `grunt build` in the folder after acquire the code.
+in the folder with gruntFile.js. If you wish to modify or fork our code, simply run `grunt build` after modifying the code to try it out in your browser locally.
 

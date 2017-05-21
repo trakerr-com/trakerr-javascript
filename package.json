@@ -1,12 +1,14 @@
 {
   "name": "trakerr-javascript",
-  "version": "1.0.2",
-  "description": "Trakerr Javascript Client",
+  "version": "1.1.0",
+  "description": "Trakerr Javascript Client. Get your event to Trakerr Quickly!",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "trakerr",
   "license": "Apache-2.0",
+  "main": "index.js",
+  "browser": "dist/trakerr.min.js",
   "dependencies": {
     "stacktrace-js": "^1.3.1",
     "superagent": "1.7.1"

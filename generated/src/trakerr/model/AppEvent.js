@@ -53,7 +53,7 @@
    * @alias module:trakerr/model/AppEvent
    * @class
    * @param apiKey {String} API key generated for the application
-   * @param classification {String} (optional) one of 'error' or a custom string for non-errors, defaults to 'error'
+   * @param classification {String} (optional) one of 'issue' or a custom string for non-issues, defaults to 'issue'
    * @param eventType {String} type of the event or error (eg. NullPointerException)
    * @param eventMessage {String} message containing details of the event or error
    */
@@ -61,27 +61,10 @@
     var _this = this;
 
     _this['apiKey'] = apiKey;
-    _this['logLevel'] = logLevel
+    _this['logLevel'] = logLevel;
     _this['classification'] = classification;
     _this['eventType'] = eventType;
     _this['eventMessage'] = eventMessage;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   };
 
@@ -159,6 +142,30 @@
       if (data.hasOwnProperty('contextDataCenterRegion')) {
         obj['contextDataCenterRegion'] = ApiClient.convertToType(data['contextDataCenterRegion'], 'String');
       }
+      if (data.hasOwnProperty('contextTags')) {
+        obj['contextTags'] = ApiClient.convertToType(data['contextTags'], ['String']);
+      }
+      if (data.hasOwnProperty('contextURL')) {
+        obj['contextURL'] = ApiClient.convertToType(data['contextURL'], 'String');
+      }
+      if (data.hasOwnProperty('contextOperationTimeMillis')) {
+        obj['contextOperationTimeMillis'] = ApiClient.convertToType(data['contextOperationTimeMillis'], 'Integer');
+      }
+      if (data.hasOwnProperty('contextCpuPercentage')) {
+        obj['contextCpuPercentage'] = ApiClient.convertToType(data['contextCpuPercentage'], 'Integer');
+      }
+      if (data.hasOwnProperty('contextMemoryPercentage')) {
+        obj['contextMemoryPercentage'] = ApiClient.convertToType(data['contextMemoryPercentage'], 'Integer');
+      }
+      if (data.hasOwnProperty('contextCrossAppCorrelationId')) {
+        obj['contextCrossAppCorrelationId'] = ApiClient.convertToType(data['contextCrossAppCorrelationId'], 'String');
+      }
+      if (data.hasOwnProperty('contextDevice')) {
+        obj['contextDevice'] = ApiClient.convertToType(data['contextDevice'], 'String');
+      }
+      if (data.hasOwnProperty('contextAppSku')) {
+        obj['contextAppSku'] = ApiClient.convertToType(data['contextAppSku'], 'String');
+      }
       if (data.hasOwnProperty('customProperties')) {
         obj['customProperties'] = CustomData.constructFromObject(data['customProperties']);
       }
@@ -180,7 +187,7 @@
    */
   exports.prototype['logLevel'] = undefined;
   /**
-   * (optional) one of 'error' or a custom string for non-errors, defaults to 'error'
+   * (optional) one of 'issue' or a custom string for non-issues, defaults to 'issue'
    * @member {String} classification
    */
   exports.prototype['classification'] = undefined;
@@ -273,6 +280,45 @@
    * @member {String} contextDataCenterRegion
    */
   exports.prototype['contextDataCenterRegion'] = undefined;
+  /**
+   * @member {Array.<String>} contextTags
+   */
+  exports.prototype['contextTags'] = undefined;
+  /**
+   * (optional) The full URL when running in a browser when the event was generated.
+   * @member {String} contextURL
+   */
+  exports.prototype['contextURL'] = undefined;
+  /**
+   * (optional) duration that this event took to occur in millis. Example - database call time in millis.
+   * @member {Integer} contextOperationTimeMillis
+   */
+  exports.prototype['contextOperationTimeMillis'] = undefined;
+  /**
+   * (optional) CPU utilization as a percent when event occured
+   * @member {Integer} contextCpuPercentage
+   */
+  exports.prototype['contextCpuPercentage'] = undefined;
+  /**
+   * (optional) Memory utilization as a percent when event occured
+   * @member {Integer} contextMemoryPercentage
+   */
+  exports.prototype['contextMemoryPercentage'] = undefined;
+  /**
+   * (optional) Cross application correlation ID
+   * @member {String} contextCrossAppCorrelationId
+   */
+  exports.prototype['contextCrossAppCorrelationId'] = undefined;
+  /**
+   * (optional) Device information
+   * @member {String} contextDevice
+   */
+  exports.prototype['contextDevice'] = undefined;
+  /**
+   * (optional) Application SKU
+   * @member {String} contextAppSku
+   */
+  exports.prototype['contextAppSku'] = undefined;
   /**
    * @member {module:trakerr/model/CustomData} customProperties
    */

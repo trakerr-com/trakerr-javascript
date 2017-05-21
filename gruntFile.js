@@ -112,13 +112,12 @@ module.exports = function (grunt) {
         },
         uglify: {
             options: {
-                // sourceMap: true
-                //, sourceMapName: 'src/app-uglified.js.map'
+                sourceMap: true,
+                sourceMapName: 'dist/trakerr.js.map'
             },
             sources: {
                 src: ['generated/src/trakerr/**/*.js', 'index.js'],
                 dest: 'dist/trakerr.min.js',
-                sourceMap: true
             }
         },
         cssmin: {

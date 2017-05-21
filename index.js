@@ -21,15 +21,15 @@
  * limitations under the License.
  */
 (function (root, factory) {
-   if (typeof define === 'function' && define.amd) {
-       // AMD. Register as an anonymous module.
-       define(['./generated/src/trakerr/index', 'stacktrace-js'], factory);
-   } else if (typeof module === 'object' && module.exports) {
-       // CommonJS-like environments that support module.exports, like Node.
-       module.exports = factory(require('./generated/src/trakerr/index'), require('stacktrace-js'));
-   } else {
-       root.TrakerrClient = factory(root.TrakerrApi, root.StackTrace);
-   }
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['./generated/src/trakerr/index', 'stacktrace-js'], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        // CommonJS-like environments that support module.exports, like Node.
+        module.exports = factory(require('./generated/src/trakerr/index'), require('stacktrace-js'));
+    } else {
+        root.TrakerrClient = factory(root.TrakerrApi, root.StackTrace);
+    }
 }(this, function (TrakerrApi, StackTrace) {
     'use strict';
 
@@ -38,19 +38,21 @@
      * @param apiKey API Key for the application
      * @param contextAppVersion (optional) application version, defaults to 1.0
      * @param contextEnvName (optional) environment name like "development", "staging", "production" or a custom string
+     * @param contextAppSKU (optional) String representation of the application sku
+     * @param contextTags (optional) An Array.<String> that represent tags about your module. We recommend module and submodule to start with (ie database, mongo)
      * @module index
      * @version 1.0.2
      */
     var exports = function TrakerrClient(apiKey,
         contextAppVersion,
-        contextDeploymentStage) {
+        contextDeploymentStage, contextAppSKU, contextTags) {
         var _this = this;
 
         _this.apiKey = apiKey;
         _this.contextAppVersion = contextAppVersion ? contextAppVersion : '1.0';
         _this.contextDeploymentStage = contextDeploymentStage ? contextDeploymentStage : 'development';
         _this.contextEnvLanguage = "JavaScript";
-        _this.contextEnvName = "JavaScript";
+        _this.contextEnvName = "JavaScript/Node";
 
 
         if (typeof navigator !== 'undefined') {
@@ -73,7 +75,7 @@
                 }
             }
             // Opera Next
-            if ((verOffset = nAgt.indexOf('OPR')) != -1) {
+            else if ((verOffset = nAgt.indexOf('OPR')) != -1) {
                 browser = 'Opera';
                 version = nAgt.substring(verOffset + 4);
             }
@@ -135,8 +137,8 @@
             }
             // Other browsers
             else if ((nameOffset = nAgt.lastIndexOf(' ') + 1) < (verOffset = nAgt.lastIndexOf('/'))) {
-                browser = nAgt.substring(nameOffset, verOffset);
-                version = nAgt.substring(verOffset + 1);
+                browser = 'Other';
+                version = 'Unknown';
                 if (browser.toLowerCase() == browser.toUpperCase()) {
                     browser = navigator.appName;
                 }
@@ -220,12 +222,28 @@
                     osVersion = /OS (\d+)_(\d+)_?(\d+)?/.exec(nVer);
                     osVersion = osVersion[1] + '.' + osVersion[2] + '.' + (osVersion[3] | 0);
                     break;
+
+                case 'Linux':
+                    if (/ubuntu/i.test(nAgt)) {
+                        ubuntuver = /(ubuntu) (\d+\.\d+)/.exec(nAgt)
+                        if (ubuntuver === null) {
+                            ubuntuver = /(ubuntu)\/(\d+\.\d+)/i.exec(nAgt)
+                        }
+                        osVersion = ubuntuver[1] + ' ' + ubuntuver[2]
+                    }
+                    if (/centos/i.test(nAgt)) {
+                        centver = /(centos)\/([\w.]+)/i.exec(nAgt)
+                        if (centver !== null) {
+                            osVersion = centver[1] + ' ' + centver[2]
+                        }
+                    }
+                    break;
             }
 
             //document.getElementById("outputhook").innerHTML = "I'm a browser!"; Debug statement. Commented out for hotfix
-            _this.contextEnvVersion = navigator.userAgent;
+            _this.contextEnvVersion = 'Browser';
             _this.contextAppOS = os;
-            _this.contextAppOSVersion = osVersion;
+            _this.contextAppOSVersion = osVersion.replace(/_/g, '.');
             _this.contextAppBrowser = browser;
             _this.contextAppBrowserVersion = version;
 
@@ -233,15 +251,24 @@
             try {
                 var os = require('os');
 
+                _this.opsys = os
+
                 if (typeof os !== 'undefined') {
                     _this.contextAppOS = os.platform();
                     _this.contextAppOSVersion = os.release();
                     _this.contextEnvHostname = os.hostname();
+                    _this.firstCpuTimes = getCPUS(os);
                 }
             } catch (err) {
-
+                //ignored
             }
         }
+
+        _this.contextEnvVersion = titleCase(_this.contextEnvVersion);
+        _this.contextAppOS = titleCase(_this.contextAppOS);
+        _this.contextAppOSVersion = titleCase(_this.contextAppOSVersion);
+        _this.contextAppBrowser = titleCase(_this.contextAppBrowser);
+        _this.contextAppBrowserVersion = titleCase(_this.contextAppBrowserVersion);
 
         var apiClient = new TrakerrApi.ApiClient();
 
@@ -277,6 +304,23 @@
             if (typeof appEvent.contextDataCenterRegion === 'undefined') appEvent.contextDataCenterRegion = _this.contextDataCenterRegion;
 
             if (typeof appEvent.eventTime === 'undefined') appEvent.eventTime = (new Date()).getTime();
+
+            if (typeof _this.opsys !== 'undefined') {
+                if (typeof appEvent.contextCpuPercentage === 'undefined') {
+                    appEvent.contextCpuPercentage = Math.round(totalCPU());
+                }
+
+                if(typeof appEvent.contextMemoryPercentage === 'undefined'){
+                    appEvent.contextMemoryPercentage = Math.round(((_this.opsys.totalmem() - _this.opsys.freemem())/_this.opsys.totalmem()) * 100);
+                }
+            }
+            else{
+                appEvent.contextURL = window.location.href;
+            }
+
+             if (typeof appEvent.contextTags === 'undefined') appEvent.contextTags = _this.contextTags;
+             if (typeof appEvent.contextAppSKU === 'undefined') appEvent.contextAppSKU = _this.contextAppSKU;
+
             return appEvent;
         }
 
@@ -318,7 +362,7 @@
          * @param {*} shouldDie boolean on if the program should crash after handling.
          * @param {*} callbackFn callback function for sendEvent. Falsy value if you don't need it.
          */
-        function sendEventFromError(err, logLevel, classification, shouldDie, callbackFn) {           
+        function sendEventFromError(err, logLevel, classification, shouldDie, callbackFn) {
             StackTrace
                 .fromError(err)
                 .then(function (stackFrames) {
@@ -345,29 +389,79 @@
                 });
         }
 
+        function getCPUS() {
+            //From http://stackoverflow.com/questions/39516931/how-to-get-cpu-usage-in-javascript
+            //And https://gist.github.com/bag-man/5570809
+            //Initialise sum of idle and time of cores and fetch CPU info
+            var totalIdle = 0, totalTick = 0;
+            var cpus = _this.opsys.cpus();
+
+            //Loop through CPU cores
+            for (var i = 0, len = cpus.length; i < len; i++) {
+
+                //Select CPU core
+                var cpu = cpus[i];
+
+                //Total up the time in the cores tick
+                for (var stats in cpu.times) {
+                    totalTick += cpu.times[stats];
+                }
+
+                //Total up the idle time of the core
+                totalIdle += cpu.times.idle;
+            }
+
+            //Return the average Idle and Tick times
+            return { idle: totalIdle / cpus.length, total: totalTick / cpus.length };
+        }
+
+        function totalCPU() {
+
+            //Grab second Measure
+            var endCPUtimes = getCPUS();
+
+            //Calculate the difference in idle and total time between the measures
+            var idleDifference = endCPUtimes - _this.firstCpuTimes.idle;
+            var totalDifference = endCPUtimes - _this.firstCpuTimes.total;
+
+            //Calculate the average percentage CPU usage
+            var percentageCPU = 100 - ~~(100 * idleDifference / totalDifference);
+            
+            _this.firstCpuTimes = endCPUtimes;
+
+            //Output result to console
+            return percentageCPU;
+        }
+
+        function titleCase(str) {
+                return str == null? null : str.split(' ').map(function (val) {
+                    return val.charAt(0).toUpperCase() + val.substr(1).toLowerCase();
+                }).join(' ');
+            }
+
         /**
          * Setup global exception handling
          *
          * @param shouldDie should the process exit on error (applicable to node or other environments, ignored if in browser)
          */
-        TrakerrClient.prototype.handleExceptions = function(shouldDie) {
-            if (typeof window !== 'undefined') {
-                window.onerror = function (msg, file, line, col, error) {
-                    var string = msg.toLowerCase();
-                    var substring = "script error";
-                    if (string.indexOf(substring) > -1) {
-                        console.error('Script Error: Script error encountered, see browser console for more.');
-                    } else {
-                        sendEventFromError(error, "Error", "issue", false);
+        TrakerrClient.prototype.handleExceptions = function (shouldDie) {
+                if (typeof window !== 'undefined') {
+                    window.onerror = function (msg, file, line, col, error) {
+                        var string = msg.toLowerCase();
+                        var substring = "script error";
+                        if (string.indexOf(substring) > -1) {
+                            console.error('Script Error: Script error encountered, see browser console for more.');
+                        } else {
+                            sendEventFromError(error, "Error", "issue", false);
+                        }
                     }
+                } else if (typeof process !== 'undefined') {
+                    shouldDie = (typeof shouldDie === 'undefined') ? true : shouldDie;
+                    process.on('uncaughtException', function (err) {
+                        sendEventFromError(err, "Error", "issue", shouldDie);
+                    });
                 }
-            } else if (typeof process !== 'undefined') {
-                shouldDie = (typeof shouldDie === 'undefined') ? true : shouldDie;
-                process.on('uncaughtException', function (err) {
-                    sendEventFromError(err, "Error", "issue", shouldDie);
-                });
-            }
-        };
+            };
 
 
         /**
@@ -571,6 +665,30 @@
             var _this = this;
 
             _this.contextDataCenterRegion = contextdatacenterregion;
+        };
+
+        TrakerrClient.prototype.get_contextTags = function () {
+            var _this = this;
+
+            return _this.contextTags;
+        };
+
+        TrakerrClient.prototype.set_contextTags = function (contexttags) {
+            var _this = this;
+
+            _this.contextTags = contexttags;
+        };
+
+        TrakerrClient.prototype.get_contextAppSKU = function () {
+            var _this = this;
+
+            return _this.contextAppSKU;
+        };
+
+        TrakerrClient.prototype.set_contextAppSKU = function (contextappsku) {
+            var _this = this;
+
+            _this.contextAppSKU = contextappsku;
         };
     };
 
