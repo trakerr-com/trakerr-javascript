@@ -1,11 +1,28 @@
 # Trakerr - Javascript API Client
-Get your application events and errors to Trakerr via the *Trakerr API
 
-## 3-minute Integration Guide
+Get your application events and errors to Trakerr via the *Trakerr API*.
+
+You can send both errors and non-errors (plain log statements, for example) to Trakerr with this API.
+
+## Overview
+
+The **3-minute guide** is primarily oriented around sending errors or warnings and does not let you specify additional parameters.
+**Option-4 in the detailed integration guide** describes how you could send a non-error (or any log statement) along with additional parameters.
+
+The SDK takes performance impact seriously and all communication between the SDK <=> Trakerr avoids blocking the calling function. The SDK also applies asynchronous patterns where applicable.
+
+A Trakerr *Event* can consist of various parameters as described here in [TrakerrApi.AppEvent](https://github.com/trakerr-com/trakerr-javascript/blob/master/generated/docs/AppEvent.md).
+Some of these parameters are populated by default and others are optional and can be supplied by you.
+
+Since some of these parameters are common across all event's, the API has the option of setting these on the
+TrakerrClient instance (described towards the bottom) and offers a factory API for creating AppEvent's.
+
 ### Requirements
 Node or Javascript supported Browser.
 - [superagent.js](https://github.com/visionmedia/superagent)
 - [stacktrace.js](https://www.stacktracejs.com/)
+
+## 3-minute Integration Guide
 
 ### HTML/Javascript: 3-minute guide
 Include the following in your HTML
@@ -202,19 +219,18 @@ Name | Type | Description | Notes
 ## Documentation for AppEvent
  - [TrakerrApi.AppEvent](https://github.com/trakerr-com/trakerr-javascript/blob/master/generated/docs/AppEvent.md)
 
-## Developer dependencies
-- [grunt.js](https://gruntjs.com/) (if you want to build from source)
+## Developer Notes
 
-## Installation via NPM
+**Dependencies:** [grunt.js](https://gruntjs.com/) (if you want to build from source)
+
+**Installation via NPM:**
 To install off a branch which may have experimental features, you can use:
 
 ```bash
 npm install --only=prod --save trakerr-com/trakerr-javascript#<branch name>
 ```
-without the angle brackets.
 
-## Building from Source
-If you want to build from source for the browser, use the following command:
+**Building from Source:** If you want to build from source for the browser, use the following command:
 
 ```bash
 npm install [--save] trakerr-com/trakerr-javascript
